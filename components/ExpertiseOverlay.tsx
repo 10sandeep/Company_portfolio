@@ -205,7 +205,7 @@ export default function ExpertiseOverlay({ expertiseKey, onClose }: Props) {
         />
 
         {/* titles at bottom */}
-        <div className="absolute bottom-0 left-0 right-0 px-7 pb-12 max-w-[1180px] mx-auto">
+        <div className="absolute bottom-0 left-0 right-0 px-4 sm:px-7 pb-8 sm:pb-12 max-w-[1180px] mx-auto">
           <motion.p
             className="text-xs font-bold tracking-[2.5px] uppercase mb-3"
             style={{ color: item.accent }}
@@ -234,8 +234,8 @@ export default function ExpertiseOverlay({ expertiseKey, onClose }: Props) {
       </motion.div>
 
       {/* ── Body ── */}
-      <div className="max-w-[1180px] mx-auto px-7 py-14">
-        <div className="grid gap-16" style={{ gridTemplateColumns: '1.1fr 0.9fr' }}>
+      <div className="max-w-[1180px] mx-auto px-4 sm:px-7 py-10 sm:py-14">
+        <div className="grid gap-10 md:gap-16 grid-cols-1 md:[grid-template-columns:1.1fr_0.9fr]">
 
           {/* Left: overview + challenge + process */}
           <motion.div
@@ -297,7 +297,7 @@ export default function ExpertiseOverlay({ expertiseKey, onClose }: Props) {
             <div>
               <h3 className="font-archivo font-bold text-[18px] mb-4 text-white">By the numbers</h3>
               <div
-                className="grid grid-cols-3 gap-4 rounded-[22px] p-7"
+                className="grid grid-cols-3 gap-3 sm:gap-4 rounded-[22px] p-5 sm:p-7"
                 style={{ background: 'var(--elevated)', border: '1px solid var(--border)' }}
               >
                 {item.stats.map((r, i) => (
@@ -336,7 +336,7 @@ export default function ExpertiseOverlay({ expertiseKey, onClose }: Props) {
 
         {/* Bottom bar */}
         <motion.div
-          className="flex justify-between items-center mt-16 pt-8"
+          className="flex flex-wrap justify-between items-center gap-4 mt-12 sm:mt-16 pt-8"
           style={{ borderTop: '1px solid var(--border)' }}
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 1.1 }}

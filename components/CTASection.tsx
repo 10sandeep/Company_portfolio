@@ -5,9 +5,9 @@ import GlareHover from './GlareHover'
 
 export default function CTASection() {
   return (
-    <section className="mx-[14px] rounded-[40px] text-white relative overflow-hidden pt-[72px] pb-0"
+    <section className="mx-2 sm:mx-[14px] rounded-[28px] sm:rounded-[40px] text-white relative overflow-hidden"
              style={{ background:'var(--panel)', border:'1px solid var(--border)',
-                      padding:'72px clamp(22px,5vw,70px) 0' }}>
+                      padding:'clamp(44px,6vw,72px) clamp(18px,5vw,70px) 0' }}>
       <div className="text-center relative z-[2]">
 
         <motion.p
@@ -78,9 +78,9 @@ export default function CTASection() {
         </motion.div>
       </div>
 
-      {/* spinning badge */}
+      {/* spinning badge — hidden on mobile to avoid text overlap */}
       <motion.div
-        className="absolute top-10 right-[34px] w-[130px] h-[130px] rounded-full z-[1]"
+        className="hidden sm:block absolute top-10 right-[34px] w-[130px] h-[130px] rounded-full z-[1]"
         style={{ background:'#6C2BD9' }}
         initial={{ opacity: 0, scale: 0.5, rotate: -45 }}
         whileInView={{ opacity: 1, scale: 1, rotate: 0 }}

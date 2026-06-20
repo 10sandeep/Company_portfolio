@@ -7,7 +7,7 @@ const services = ['App Development', 'Web Development', 'UI/UX Design']
 export default function Footer() {
   return (
     <motion.footer
-      className="mx-[14px] rounded-b-[40px] text-white px-[clamp(22px,5vw,70px)] pb-9 pt-20"
+      className="mx-2 sm:mx-[14px] rounded-b-[28px] sm:rounded-b-[40px] text-white px-[clamp(18px,5vw,70px)] pb-9 pt-14 sm:pt-20"
       style={{ background:'var(--panel)', marginTop: '-1px' }}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}

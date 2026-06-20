@@ -17,10 +17,10 @@ const logos = [
 export default function LogoWall() {
   return (
     <section className="max-w-[1080px] mx-auto px-7 py-10">
-      <div className="py-11 grid place-items-center"
+      <div className="py-11 grid place-items-center grid-cols-2 sm:grid-cols-3 md:grid-cols-5"
            style={{ borderTop: '1px solid rgba(255,255,255,0.1)',
                     borderBottom: '1px solid rgba(255,255,255,0.1)',
-                    gridTemplateColumns: 'repeat(5,1fr)', gap: '38px 24px' }}>
+                    gap: '28px 16px' }}>
         {logos.map((l, i) => (
           <motion.span
             key={l.name}

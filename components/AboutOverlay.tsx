@@ -7,8 +7,8 @@ import { gsap } from 'gsap'
 const team = [
   {
     name: 'Sushree Jyotirmayee Sahoo',
-    role: 'Lead Generation',
-    specialty: 'Growth Strategy & Outreach',
+    role: 'BDE',
+    specialty: 'Business Development & Outreach',
     initials: 'SJS',
     photo: '/images/sushree.jpeg',
     color: '#19b3c6',
@@ -105,7 +105,7 @@ export default function AboutOverlay({ onClose }: { onClose: () => void }) {
       style={{ background: 'var(--dark)', willChange: 'transform' }}
     >
       {/* ── Sticky top bar ── */}
-      <div className="sticky top-0 z-10 flex items-center justify-between px-7 h-[60px]"
+      <div className="sticky top-0 z-10 flex items-center justify-between px-4 sm:px-7 h-[60px]"
            style={{ background: 'var(--nav-bg)', backdropFilter: 'blur(14px)',
                     borderBottom: '1px solid var(--border)' }}>
         <div className="flex items-center gap-3">
@@ -134,7 +134,7 @@ export default function AboutOverlay({ onClose }: { onClose: () => void }) {
       </div>
 
       {/* ── Hero ── */}
-      <div className="relative overflow-hidden px-7 pt-16 pb-20 max-w-[1180px] mx-auto">
+      <div className="relative overflow-hidden px-4 sm:px-7 pt-12 sm:pt-16 pb-14 sm:pb-20 max-w-[1180px] mx-auto">
         {/* big background text */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
           <span className="font-archivo font-black text-white/[0.025] whitespace-nowrap"
@@ -175,7 +175,7 @@ export default function AboutOverlay({ onClose }: { onClose: () => void }) {
 
         {/* stats row */}
         <motion.div
-          className="grid grid-cols-4 gap-6 mt-14 pt-10"
+          className="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-10 sm:mt-14 pt-8 sm:pt-10"
           style={{ borderTop: '1px solid var(--border)' }}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -197,12 +197,11 @@ export default function AboutOverlay({ onClose }: { onClose: () => void }) {
       </div>
 
       {/* ── What we believe ── */}
-      <div className="mx-[14px] rounded-[32px] mb-6"
+      <div className="mx-2 sm:mx-[14px] rounded-[24px] sm:rounded-[32px] mb-6"
            style={{ background: 'var(--panel)', border: '1px solid var(--border-2)' }}>
-        <div className="max-w-[1180px] mx-auto px-[clamp(24px,4vw,56px)] py-16">
+        <div className="max-w-[1180px] mx-auto px-[clamp(18px,4vw,56px)] py-12 sm:py-16">
           <motion.div
-            className="grid gap-12"
-            style={{ gridTemplateColumns: '1fr 1fr' }}
+            className="grid gap-10 sm:gap-12 grid-cols-1 md:[grid-template-columns:1fr_1fr]"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: false, amount: 0.2 }}
@@ -249,7 +248,7 @@ export default function AboutOverlay({ onClose }: { onClose: () => void }) {
       </div>
 
       {/* ── Video Reel ── */}
-      <div className="max-w-[1180px] mx-auto px-7 py-16">
+      <div className="max-w-[1180px] mx-auto px-4 sm:px-7 py-12 sm:py-16">
         <motion.div
           className="flex items-end justify-between mb-10"
           initial={{ opacity: 0, y: 24 }}
@@ -267,7 +266,7 @@ export default function AboutOverlay({ onClose }: { onClose: () => void }) {
           <span className="text-sm text-muted hidden md:block">3 films</span>
         </motion.div>
 
-        <div className="grid grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
           {videos.map((v, i) => (
             <motion.div
               key={v.title}
@@ -338,9 +337,9 @@ export default function AboutOverlay({ onClose }: { onClose: () => void }) {
       </div>
 
       {/* ── Our Team ── */}
-      <div className="mx-[14px] rounded-[32px] mb-6"
+      <div className="mx-2 sm:mx-[14px] rounded-[24px] sm:rounded-[32px] mb-6"
            style={{ background: 'var(--panel)', border: '1px solid var(--border-2)' }}>
-        <div className="max-w-[1180px] mx-auto px-[clamp(24px,4vw,56px)] py-16">
+        <div className="max-w-[1180px] mx-auto px-[clamp(18px,4vw,56px)] py-12 sm:py-16">
 
           <motion.div
             className="mb-12"
@@ -356,7 +355,7 @@ export default function AboutOverlay({ onClose }: { onClose: () => void }) {
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {team.map((member, i) => (
               <TeamCard key={member.name} member={member} index={i} />
             ))}
@@ -365,7 +364,7 @@ export default function AboutOverlay({ onClose }: { onClose: () => void }) {
       </div>
 
       {/* ── Closing strip ── */}
-      <div className="max-w-[1180px] mx-auto px-7 py-16 text-center">
+      <div className="max-w-[1180px] mx-auto px-4 sm:px-7 py-12 sm:py-16 text-center">
         <motion.h2
           className="font-archivo font-black text-white leading-tight m-0 mb-6"
           style={{ fontSize: 'clamp(30px, 4vw, 54px)' }}

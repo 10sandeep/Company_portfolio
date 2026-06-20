@@ -42,7 +42,7 @@ export default function Hero() {
 
   return (
     <section id="home" ref={entersRef as React.RefObject<HTMLDivElement>}
-             className="relative max-w-[1180px] mx-auto px-7 pt-16 pb-20 text-center min-h-[620px]"
+             className="relative max-w-[1180px] mx-auto px-5 sm:px-7 pt-12 sm:pt-16 pb-16 sm:pb-20 text-center min-h-[500px] sm:min-h-[620px]"
              style={{ scrollMarginTop: '80px' }}>
 
       {/* faint bg mark */}
@@ -55,9 +55,9 @@ export default function Hero() {
         </svg>
       </div>
 
-      {/* floating purple icon left */}
+      {/* floating purple icon left — hidden on mobile */}
       <div data-parallax="0.4"
-           className="absolute top-[70px] left-[6px] w-[200px] h-[152px] z-[4]">
+           className="hidden sm:block absolute top-[70px] left-[6px] w-[200px] h-[152px] z-[4]">
         <div className="w-full h-full flex items-center justify-center anim-float"
              style={{ ['--dur' as string]: '5.5s', transform: 'rotate(-6deg)' }}>
           <span className="w-16 h-16 text-purple opacity-50">
@@ -69,9 +69,9 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* floating lime star right */}
+      {/* floating lime star right — hidden on mobile */}
       <div data-parallax="0.3"
-           className="absolute top-[150px] right-0 w-[170px] h-[170px] z-[4]">
+           className="hidden sm:block absolute top-[150px] right-0 w-[170px] h-[170px] z-[4]">
         <div className="w-full h-full flex items-center justify-center anim-float"
              style={{ ['--dur' as string]: '6.5s' }}>
           <span className="w-14 h-14 text-lime">
@@ -82,8 +82,8 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* location pills */}
-      <div data-enter className="absolute top-[30px] right-[18px] flex flex-col gap-[7px] items-end z-[5]">
+      {/* location pills — hidden on mobile to avoid overlap */}
+      <div data-enter className="hidden sm:flex absolute top-[30px] right-[18px] flex-col gap-[7px] items-end z-[5]">
         <span className="bg-purple text-white text-[11px] font-bold px-[14px] py-[6px] rounded-full whitespace-nowrap">
           Bhubaneswar, Odisha
         </span>
@@ -99,8 +99,8 @@ export default function Hero() {
 
       {/* main headline */}
       <h1 data-enter
-          className="relative z-[3] font-archivo font-extrabold leading-[0.98] tracking-tight mx-auto mt-3 max-w-[880px]"
-          style={{ fontSize: 'clamp(40px,7.4vw,94px)' }}>
+          className="relative z-[3] font-archivo font-extrabold leading-[1.02] sm:leading-[0.98] tracking-tight mx-auto mt-3 max-w-[880px]"
+          style={{ fontSize: 'clamp(36px,7.4vw,94px)' }}>
         Elevate Your Brand{' '}
         <span className="inline-flex bg-purple rounded-full text-white items-center justify-center align-middle p-[0.16em]"
               style={{ width: '0.86em', height: '0.86em', verticalAlign: '-0.1em' }}>
@@ -119,7 +119,7 @@ export default function Hero() {
 
       {/* scroll down */}
       <div data-enter
-           className="relative z-[3] flex items-center justify-center gap-[11px] mt-12 text-sm text-[#9a9a9a]">
+           className="relative z-[3] flex items-center justify-center gap-[11px] mt-10 sm:mt-12 text-sm text-[#9a9a9a]">
         Scroll down
         <span className="anim-float w-[34px] h-[34px] rounded-full bg-purple text-white flex items-center justify-center"
               style={{ ['--dur' as string]: '3s' }}>

@@ -14,8 +14,8 @@ export default function Contact() {
   ]
 
   return (
-    <section id="contact" className="max-w-[1180px] mx-auto px-7 py-16" style={{ scrollMarginTop:'80px' }}>
-      <div className="grid gap-14" style={{ gridTemplateColumns:'0.9fr 1.1fr' }}>
+    <section id="contact" className="max-w-[1180px] mx-auto px-5 sm:px-7 py-12 sm:py-16" style={{ scrollMarginTop:'80px' }}>
+      <div className="grid gap-10 md:gap-14 grid-cols-1 md:[grid-template-columns:0.9fr_1.1fr]">
 
         {/* left – slides in from left */}
         <motion.div
@@ -90,7 +90,7 @@ export default function Contact() {
             </motion.div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Field label="Name"  type="text"  placeholder="Jane Doe" />
                 <Field label="Email" type="email" placeholder="jane@brand.com" />
               </div>

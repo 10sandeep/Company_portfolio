@@ -95,7 +95,7 @@ export default function ProductsOverlay({ onClose }: Props) {
     >
       {/* ── Sticky top bar ── */}
       <div
-        className="sticky top-0 z-10 flex items-center justify-between px-7 h-[60px]"
+        className="sticky top-0 z-10 flex items-center justify-between px-4 sm:px-7 h-[60px]"
         style={{ background: 'var(--nav-bg)', backdropFilter: 'blur(12px)', borderBottom: '1px solid var(--border)' }}
       >
         <div className="flex items-center gap-3">
@@ -122,7 +122,7 @@ export default function ProductsOverlay({ onClose }: Props) {
       </div>
 
       {/* ── Hero ── */}
-      <div className="relative overflow-hidden px-7 pt-14 pb-10 max-w-[1180px] mx-auto">
+      <div className="relative overflow-hidden px-4 sm:px-7 pt-10 sm:pt-14 pb-8 sm:pb-10 max-w-[1180px] mx-auto">
         {/* ghost text background */}
         <div
           className="absolute top-0 left-0 font-archivo font-black leading-none select-none pointer-events-none"
@@ -181,8 +181,8 @@ export default function ProductsOverlay({ onClose }: Props) {
       />
 
       {/* ── Product grid ── */}
-      <div className="max-w-[1180px] mx-auto px-7 py-14">
-        <div className="grid grid-cols-3 gap-7">
+      <div className="max-w-[1180px] mx-auto px-4 sm:px-7 py-10 sm:py-14">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-7">
           {PRODUCTS.map((product, i) => (
             <ProductCard key={product.id} product={product} index={i} />
           ))}
@@ -191,7 +191,7 @@ export default function ProductsOverlay({ onClose }: Props) {
 
       {/* ── Bottom bar ── */}
       <motion.div
-        className="max-w-[1180px] mx-auto px-7 pb-14 flex justify-between items-center"
+        className="max-w-[1180px] mx-auto px-4 sm:px-7 pb-10 sm:pb-14 flex flex-wrap justify-between items-center gap-4"
         style={{ borderTop: '1px solid var(--border)', paddingTop: '32px' }}
         initial={{ opacity: 0 }} animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 1.2 }}

@@ -180,3 +180,9 @@ body {
 .ts-track-right { animation: ts-right 26s linear infinite; }
 .ts-row:hover .ts-track-left,
 .ts-row:hover .ts-track-right { animation-play-state: paused; }
+
+/* ── Project card responsive image height ── */
+.project-card-img { height: var(--h-sm); }
+@media (min-width: 768px) {
+  .project-card-img { height: var(--h-md); }
+}

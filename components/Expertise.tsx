@@ -22,18 +22,18 @@ export default function Expertise() {
     <>
       <section
         id="about"
-        className="mx-[14px] rounded-[40px] overflow-hidden"
+        className="mx-2 sm:mx-[14px] rounded-[28px] sm:rounded-[40px] overflow-hidden"
         style={{
           background: 'var(--panel)',
           border: '1px solid var(--border)',
-          padding: '56px clamp(22px,4vw,56px)',
+          padding: 'clamp(32px,5vw,56px) clamp(18px,4vw,56px)',
           scrollMarginTop: '80px',
         }}
       >
         <div className="max-w-[1120px] mx-auto">
 
           <motion.div
-            className="flex justify-between items-end gap-6 flex-wrap"
+            className="flex justify-between items-start md:items-end gap-4 flex-wrap"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false, amount: 0.3 }}
@@ -41,7 +41,7 @@ export default function Expertise() {
           >
             <h2 className="font-archivo font-bold m-0 tracking-tight"
                 style={{ fontSize: 'clamp(28px,3.6vw,42px)' }}>Our Expertise</h2>
-            <p className="max-w-[300px] text-right text-sm text-muted m-0 leading-relaxed">
+            <p className="max-w-[300px] text-left md:text-right text-sm text-muted m-0 leading-relaxed">
               Transform ideas into reality by combining creativity, strategy, and expertise.
             </p>
           </motion.div>
@@ -54,7 +54,7 @@ export default function Expertise() {
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           />
 
-          <div className="grid grid-cols-3 gap-[18px]">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-[18px]">
 
             {/* App Development */}
             <ExpertiseCard index={0} onOpen={() => setOpenKey('app')}>

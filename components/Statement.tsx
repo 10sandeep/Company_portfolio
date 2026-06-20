@@ -85,18 +85,18 @@ export default function Statement() {
   return (
     <div className="max-w-[1120px] mx-auto px-[clamp(22px,4vw,56px)] mt-12 pb-14">
       <div className="h-px bg-white/[0.06] mb-11" />
-      <div className="grid gap-8" style={{ gridTemplateColumns: '1.45fr 0.55fr' }}>
+      <div className="grid gap-8 grid-cols-1 md:[grid-template-columns:1.45fr_0.55fr]">
 
         {/* big lime heading */}
         <h2 ref={headRef}
             className="font-archivo font-black uppercase m-0 text-lime leading-[0.97] tracking-tight"
-            style={{ fontSize: 'clamp(32px,5.1vw,66px)' }}>
+            style={{ fontSize: 'clamp(28px,5.1vw,66px)' }}>
           We create impactful experiences for our clients&apos; customers every time they engage with a brand
         </h2>
 
-        <div className="flex flex-col items-end gap-10">
+        <div className="flex flex-col items-start md:items-end gap-8 md:gap-10">
           {/* rotating badge */}
-          <div ref={badgeRef} className="relative w-[140px] h-[140px] rounded-full flex-none" style={{ background:'#6C2BD9' }}>
+          <div ref={badgeRef} className="relative w-[120px] h-[120px] md:w-[140px] md:h-[140px] rounded-full flex-none" style={{ background:'#6C2BD9' }}>
             <svg className="anim-spin w-full h-full block" style={{ ['--dur' as string]:'16s' }} viewBox="0 0 200 200">
               <defs>
                 <path id="cp1" d="M100,100 m-72,0 a72,72 0 1,1 144,0 a72,72 0 1,1 -144,0" />
@@ -121,7 +121,7 @@ export default function Statement() {
               (counterRef as React.MutableRefObject<HTMLDivElement | null>).current = el
               ;(counterWrapRef as React.MutableRefObject<HTMLDivElement | null>).current = el
             }}
-            className="text-right"
+            className="text-left md:text-right"
           >
             <div className="font-archivo font-extrabold leading-none tracking-tight"
                  style={{ fontSize: 'clamp(48px,5vw,68px)' }}>
@@ -130,7 +130,7 @@ export default function Statement() {
             <div className="text-sm text-muted mt-[6px] mb-[14px] pb-[14px] border-b border-white/[0.08]">
               Project Completed
             </div>
-            <p className="m-0 text-xs text-[#7a7a7a] leading-[1.55] max-w-[320px] ml-auto">
+            <p className="m-0 text-xs text-[#7a7a7a] leading-[1.55] max-w-[320px] md:ml-auto">
               We take pride in our client success stories, where our creative strategies and execution have played a vital role in achieving their business goals.
             </p>
           </div>

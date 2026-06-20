@@ -165,7 +165,7 @@ export default function FAQOverlay({ onClose }: Props) {
       </div>
 
       {/* ── Hero ── */}
-      <div className="relative overflow-hidden px-7 pt-14 pb-12 max-w-[1180px] mx-auto">
+      <div className="relative overflow-hidden px-4 sm:px-7 pt-10 sm:pt-14 pb-10 sm:pb-12 max-w-[1180px] mx-auto">
         {/* ghost text */}
         <div
           className="absolute top-0 right-0 font-archivo font-black leading-none select-none pointer-events-none"
@@ -235,7 +235,7 @@ export default function FAQOverlay({ onClose }: Props) {
       />
 
       {/* ── FAQ sections ── */}
-      <div className="max-w-[1180px] mx-auto px-7 py-14 flex flex-col gap-16">
+      <div className="max-w-[1180px] mx-auto px-4 sm:px-7 py-10 sm:py-14 flex flex-col gap-12 sm:gap-16">
         {SECTIONS.map((section, si) => (
           <motion.div
             key={section.label}
@@ -272,14 +272,14 @@ export default function FAQOverlay({ onClose }: Props) {
 
       {/* ── CTA block ── */}
       <motion.div
-        className="max-w-[1180px] mx-auto px-7 pb-16"
+        className="max-w-[1180px] mx-auto px-4 sm:px-7 pb-12 sm:pb-16"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: false, amount: 0.5 }}
         transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
       >
         <div
-          className="rounded-[28px] px-10 py-12 flex items-center justify-between gap-8 flex-wrap"
+          className="rounded-[28px] px-6 sm:px-10 py-8 sm:py-12 flex items-center justify-between gap-6 flex-wrap"
           style={{ background: 'var(--elevated)', border: '1px solid var(--border)' }}
         >
           <div>
@@ -307,7 +307,7 @@ export default function FAQOverlay({ onClose }: Props) {
 
       {/* ── Bottom bar ── */}
       <div
-        className="max-w-[1180px] mx-auto px-7 pb-10 flex justify-between items-center"
+        className="max-w-[1180px] mx-auto px-4 sm:px-7 pb-8 sm:pb-10 flex flex-wrap justify-between items-center gap-4"
         style={{ borderTop: '1px solid var(--border)', paddingTop: '24px' }}
       >
         <span className="text-xs tracking-[2px] uppercase text-muted font-mono">

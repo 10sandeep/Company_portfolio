@@ -99,7 +99,7 @@ export default function ProjectOverlay({ project, onClose }: Props) {
              style={{ background: 'linear-gradient(to top, rgba(10,10,11,1) 0%, rgba(10,10,11,0.45) 50%, rgba(10,10,11,0.1) 100%)' }} />
 
         {/* title overlaid on hero */}
-        <div className="absolute bottom-0 left-0 right-0 px-7 pb-10 max-w-[1180px] mx-auto">
+        <div className="absolute bottom-0 left-0 right-0 px-4 sm:px-7 pb-7 sm:pb-10 max-w-[1180px] mx-auto">
           <motion.p
             className="text-xs font-bold tracking-[2.5px] uppercase mb-3"
             style={{ color: project.accent === '#0B0B0B' ? '#C5F23C' : project.accent }}
@@ -131,11 +131,11 @@ export default function ProjectOverlay({ project, onClose }: Props) {
       </motion.div>
 
       {/* ── Scrollable content ── */}
-      <div ref={contentRef} className="max-w-[1180px] mx-auto px-7 py-14">
+      <div ref={contentRef} className="max-w-[1180px] mx-auto px-4 sm:px-7 py-10 sm:py-14">
 
         {/* Meta strip */}
         <motion.div
-          className="grid grid-cols-3 gap-6 pb-10 mb-10"
+          className="grid grid-cols-3 gap-4 sm:gap-6 pb-8 sm:pb-10 mb-8 sm:mb-10"
           style={{ borderBottom: '1px solid var(--border)' }}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -150,7 +150,7 @@ export default function ProjectOverlay({ project, onClose }: Props) {
         </motion.div>
 
         {/* Two-column body */}
-        <div className="grid gap-16" style={{ gridTemplateColumns: '1.1fr 0.9fr' }}>
+        <div className="grid gap-10 md:gap-16 grid-cols-1 md:[grid-template-columns:1.1fr_0.9fr]">
 
           {/* left: overview + challenge */}
           <motion.div
@@ -191,7 +191,7 @@ export default function ProjectOverlay({ project, onClose }: Props) {
             {/* results */}
             <div>
               <h3 className="font-archivo font-bold text-[18px] mb-4 text-white">Results</h3>
-              <div className="grid grid-cols-3 gap-4 rounded-[22px] p-7"
+              <div className="grid grid-cols-3 gap-3 sm:gap-4 rounded-[22px] p-5 sm:p-7"
                    style={{ background: 'var(--elevated)', border: '1px solid var(--border)' }}>
                 {project.results.map((r, i) => (
                   <motion.div
@@ -223,7 +223,7 @@ export default function ProjectOverlay({ project, onClose }: Props) {
 
         {/* Bottom action */}
         <motion.div
-          className="flex justify-between items-center mt-16 pt-8"
+          className="flex flex-wrap justify-between items-center gap-4 mt-12 sm:mt-16 pt-8"
           style={{ borderTop: '1px solid var(--border)' }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

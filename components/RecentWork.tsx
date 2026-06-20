@@ -11,7 +11,7 @@ export default function RecentWork({ onOpen }: Props) {
 
   return (
     <section id="product"
-             className="relative max-w-[1180px] mx-auto px-7 py-20"
+             className="relative max-w-[1180px] mx-auto px-5 sm:px-7 py-14 sm:py-20"
              style={{ scrollMarginTop: '80px' }}>
 
       {/* floating lime shapes */}
@@ -40,17 +40,17 @@ export default function RecentWork({ onOpen }: Props) {
         </motion.h2>
       </div>
 
-      <div className="relative z-[2] grid grid-cols-2 gap-[34px] mt-14">
+      <div className="relative z-[2] grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-[34px] mt-10 md:mt-14">
         {/* left column */}
-        <div className="flex flex-col gap-10">
-          <ProjectCard data={zipto}        onOpen={onOpen} imageHeight={340} colIndex={0} rowIndex={0} />
-          <ProjectCard data={eazydrivez}   onOpen={onOpen} imageHeight={300} colIndex={0} rowIndex={1} />
-          <ProjectCard data={sjdecors}     onOpen={onOpen} imageHeight={300} colIndex={0} rowIndex={2} />
+        <div className="flex flex-col gap-6 md:gap-10">
+          <ProjectCard data={zipto}        onOpen={onOpen} imageHeight={260} desktopHeight={340} colIndex={0} rowIndex={0} />
+          <ProjectCard data={eazydrivez}   onOpen={onOpen} imageHeight={220} desktopHeight={300} colIndex={0} rowIndex={1} />
+          <ProjectCard data={sjdecors}     onOpen={onOpen} imageHeight={220} desktopHeight={300} colIndex={0} rowIndex={2} />
         </div>
-        {/* right column (staggered) */}
-        <div className="flex flex-col gap-10 pt-[90px]">
-          <ProjectCard data={customer_app} onOpen={onOpen} imageHeight={320} colIndex={1} rowIndex={0} spinning />
-          <ProjectCard data={rider_app}    onOpen={onOpen} imageHeight={320} colIndex={1} rowIndex={1} />
+        {/* right column (staggered on desktop) */}
+        <div className="flex flex-col gap-6 md:gap-10 md:pt-[90px]">
+          <ProjectCard data={customer_app} onOpen={onOpen} imageHeight={240} desktopHeight={320} colIndex={1} rowIndex={0} spinning />
+          <ProjectCard data={rider_app}    onOpen={onOpen} imageHeight={240} desktopHeight={320} colIndex={1} rowIndex={1} />
         </div>
       </div>
     </section>
@@ -61,14 +61,16 @@ interface CardProps {
   data: (typeof PROJECTS)[string]
   onOpen: (key: string) => void
   imageHeight: number
+  desktopHeight?: number
   colIndex: number
   rowIndex: number
   spinning?: boolean
 }
 
-function ProjectCard({ data, onOpen, imageHeight, colIndex, rowIndex, spinning }: CardProps) {
+function ProjectCard({ data, onOpen, imageHeight, desktopHeight, colIndex, rowIndex, spinning }: CardProps) {
   const [hovered, setHovered] = useState(false)
   const delay = (colIndex + rowIndex) * 0.1
+  const h = desktopHeight ?? imageHeight
 
   return (
     <motion.div
@@ -93,14 +95,15 @@ function ProjectCard({ data, onOpen, imageHeight, colIndex, rowIndex, spinning }
         }}
       >
         {/* image area */}
-        <div className="relative overflow-hidden rounded-[12px]">
+        <div
+          className="relative overflow-hidden rounded-[12px] project-card-img"
+          style={{ '--h-sm': `${imageHeight}px`, '--h-md': `${h}px` } as React.CSSProperties}
+        >
           <Image
             src={data.image}
             alt={data.title}
-            width={600}
-            height={imageHeight}
-            className="w-full object-cover"
-            style={{ height: imageHeight, display: 'block' }}
+            fill
+            className="object-cover"
           />
 
           {/* subtle dark overlay on hover */}
