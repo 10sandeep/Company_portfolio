@@ -31,15 +31,15 @@ const team = [
   },
   {
     name: 'Subham Mishra',
-    role: 'Backend Developer',
-    specialty: 'Architecture & Engineering',
+    role: 'Backend & AI/ML Developer',
+    specialty: 'Architecture, Engineering & AI',
     initials: 'SM',
     photo: '/images/subham.png',
     color: '#C5F23C',
     bgFrom: '#141a0a',
     bgTo: '#0c0f06',
-    bio: 'Subham powers everything under the hood. From scalable APIs to database architecture, he builds server-side systems that are reliable, secure and ready to grow.',
-    skills: ['Node.js', 'Python', 'PostgreSQL', 'AWS'],
+    bio: 'Subham powers everything under the hood. From scalable APIs and database architecture to machine learning models and AI integrations, he builds backend systems that are reliable, secure, intelligent and ready to grow.',
+    skills: ['Node.js', 'Python', 'PostgreSQL', 'AWS', 'TensorFlow', 'AI/ML'],
   },
 ]
 
