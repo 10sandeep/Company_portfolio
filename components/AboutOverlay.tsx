@@ -34,7 +34,7 @@ const team = [
     role: 'Backend Developer',
     specialty: 'Architecture & Engineering',
     initials: 'SM',
-    photo: undefined,
+    photo: '/images/subham.png',
     color: '#C5F23C',
     bgFrom: '#141a0a',
     bgTo: '#0c0f06',

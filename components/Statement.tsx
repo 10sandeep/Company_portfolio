@@ -5,9 +5,27 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useInView } from '@/hooks/useInView'
 import { useCounter } from '@/hooks/useCounter'
 
+const SEGMENTS = [
+  { text: 'We',          highlight: false },
+  { text: 'create',      highlight: false },
+  { text: 'impactful',   highlight: true  },
+  { text: 'experiences', highlight: false },
+  { text: 'for',         highlight: false },
+  { text: 'our',         highlight: false },
+  { text: "clients'",    highlight: false },
+  { text: 'customers',   highlight: false },
+  { text: 'every',       highlight: false },
+  { text: 'time',        highlight: false },
+  { text: 'they',        highlight: false },
+  { text: 'engage',      highlight: false },
+  { text: 'with',        highlight: false },
+  { text: 'a',           highlight: false },
+  { text: 'brand',       highlight: false },
+]
+
 export default function Statement() {
-  const headRef   = useRef<HTMLHeadingElement>(null)
-  const badgeRef  = useRef<HTMLDivElement>(null)
+  const headRef        = useRef<HTMLHeadingElement>(null)
+  const badgeRef       = useRef<HTMLDivElement>(null)
   const counterWrapRef = useRef<HTMLDivElement>(null)
   const { ref: counterRef, inView: counterIn } = useInView()
   const { count, start } = useCounter(700)
@@ -20,24 +38,21 @@ export default function Statement() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger)
 
-    // Clip-path text reveal on heading
+    // Word-by-word scroll-scrubbed reveal
     if (headRef.current) {
-      gsap.fromTo(
-        headRef.current,
-        { clipPath: 'inset(0 0 100% 0)', opacity: 0, y: 40 },
-        {
-          clipPath: 'inset(0 0 0% 0)',
-          opacity: 1,
-          y: 0,
-          duration: 1.1,
-          ease: 'power4.out',
-          scrollTrigger: {
-            trigger: headRef.current,
-            start: 'top 82%',
-            toggleActions: 'play reverse play reverse',
-          },
-        }
-      )
+      const words = headRef.current.querySelectorAll<HTMLElement>('.reveal-word')
+      gsap.set(words, { opacity: 0.14 })
+      gsap.to(words, {
+        opacity: 1,
+        stagger: 0.1,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: headRef.current,
+          start: 'top 80%',
+          end: 'bottom 35%',
+          scrub: 1.2,
+        },
+      })
     }
 
     // Badge pop-in
@@ -83,15 +98,31 @@ export default function Statement() {
   }, [])
 
   return (
-    <div className="max-w-[1120px] mx-auto px-[clamp(22px,4vw,56px)] mt-12 pb-14">
+    <div className="max-w-[1180px] mx-auto px-5 sm:px-7 mt-12 pb-14">
       <div className="h-px bg-white/[0.06] mb-11" />
       <div className="grid gap-8 grid-cols-1 md:[grid-template-columns:1.45fr_0.55fr]">
 
-        {/* big lime heading */}
-        <h2 ref={headRef}
-            className="font-archivo font-black uppercase m-0 text-lime leading-[0.97] tracking-tight"
-            style={{ fontSize: 'clamp(28px,5.1vw,66px)' }}>
-          We create impactful experiences for our clients&apos; customers every time they engage with a brand
+        {/* word-by-word scroll reveal heading */}
+        <h2
+          ref={headRef}
+          className="font-archivo font-black uppercase m-0 text-white leading-[1.05] sm:leading-[0.97] tracking-tight"
+          style={{ fontSize: 'clamp(28px,5.1vw,66px)' }}
+        >
+          {SEGMENTS.map((seg, i) => (
+            <span key={i} className="reveal-word inline-block">
+              {seg.highlight ? (
+                <span
+                  className="bg-lime text-dark px-[0.08em] rounded-[10px] inline-block"
+                  style={{ transform: 'rotate(-1.5deg)' }}
+                >
+                  {seg.text}
+                </span>
+              ) : (
+                seg.text
+              )}
+              {i < SEGMENTS.length - 1 ? ' ' : ''}
+            </span>
+          ))}
         </h2>
 
         <div className="flex flex-col items-start md:items-end gap-8 md:gap-10">

@@ -1,9 +1,50 @@
 'use client'
+import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import GlareHover from './GlareHover'
 
+const SEGMENTS = [
+  { text: 'Partner',    highlight: false },
+  { text: 'with',       highlight: false },
+  { text: 'us',         highlight: false },
+  { text: 'to',         highlight: false },
+  { text: 'create',     highlight: false },
+  { text: 'a',          highlight: false },
+  { text: 'compelling', highlight: true  },
+  { text: 'narrative',  highlight: false },
+  { text: 'for',        highlight: false },
+  { text: 'your',       highlight: false },
+  { text: 'brand!',     highlight: false },
+]
+
 export default function CTASection() {
+  const headRef = useRef<HTMLHeadingElement>(null)
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger)
+
+    if (headRef.current) {
+      const words = headRef.current.querySelectorAll<HTMLElement>('.cta-word')
+      gsap.set(words, { opacity: 0.12 })
+      gsap.to(words, {
+        opacity: 1,
+        stagger: 0.09,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: headRef.current,
+          start: 'top 82%',
+          end: 'bottom 30%',
+          scrub: 1.2,
+        },
+      })
+    }
+
+    return () => { ScrollTrigger.getAll().forEach(t => t.kill()) }
+  }, [])
+
   return (
     <section className="mx-2 sm:mx-[14px] rounded-[28px] sm:rounded-[40px] text-white relative overflow-hidden"
              style={{ background:'var(--panel)', border:'1px solid var(--border)',
@@ -20,19 +61,27 @@ export default function CTASection() {
           Start crafting your brand story
         </motion.p>
 
-        <motion.h2
-          className="font-archivo font-black uppercase leading-none tracking-tight max-w-[980px] mx-auto m-0"
-          style={{ fontSize:'clamp(32px,5.4vw,72px)' }}
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
-          transition={{ duration: 0.85, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+        <h2
+          ref={headRef}
+          className="font-archivo font-black uppercase leading-[1.05] tracking-tight max-w-[980px] mx-auto m-0 text-white"
+          style={{ fontSize: 'clamp(32px,5.4vw,72px)' }}
         >
-          Partner with us to create a{' '}
-          <span className="bg-lime text-dark px-[0.08em] rounded-[10px] inline-block"
-                style={{ transform:'rotate(-1.5deg)' }}>compelling</span>{' '}
-          narrative for your brand!
-        </motion.h2>
+          {SEGMENTS.map((seg, i) => (
+            <span key={i} className="cta-word inline-block">
+              {seg.highlight ? (
+                <span
+                  className="bg-lime text-dark px-[0.08em] rounded-[10px] inline-block"
+                  style={{ transform: 'rotate(-1.5deg)' }}
+                >
+                  {seg.text}
+                </span>
+              ) : (
+                seg.text
+              )}
+              {i < SEGMENTS.length - 1 ? ' ' : ''}
+            </span>
+          ))}
+        </h2>
 
         <motion.p
           className="text-sm text-muted max-w-[520px] mx-auto mt-[22px] leading-[1.55]"
