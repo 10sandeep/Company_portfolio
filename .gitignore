@@ -1,0 +1,59 @@
+# ── Dependencies ──────────────────────────────────────────
+node_modules/
+.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# ── Next.js build output ──────────────────────────────────
+.next/
+out/
+build/
+
+# ── TypeScript ────────────────────────────────────────────
+tsconfig.tsbuildinfo
+*.tsbuildinfo
+
+# ── Environment variables ─────────────────────────────────
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+
+# ── Vercel ────────────────────────────────────────────────
+.vercel
+
+# ── OS / system files ─────────────────────────────────────
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ── Editor / IDE ──────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── Logs ──────────────────────────────────────────────────
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# ── Cache ─────────────────────────────────────────────────
+.cache/
+.eslintcache
+.turbo/
+
+# ── Testing ───────────────────────────────────────────────
+coverage/
+.nyc_output/
+
+# ── Misc ──────────────────────────────────────────────────
+*.pem
+.htaccess

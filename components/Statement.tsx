@@ -1,0 +1,141 @@
+'use client'
+import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useInView } from '@/hooks/useInView'
+import { useCounter } from '@/hooks/useCounter'
+
+export default function Statement() {
+  const headRef   = useRef<HTMLHeadingElement>(null)
+  const badgeRef  = useRef<HTMLDivElement>(null)
+  const counterWrapRef = useRef<HTMLDivElement>(null)
+  const { ref: counterRef, inView: counterIn } = useInView()
+  const { count, start } = useCounter(700)
+  const started = useRef(false)
+
+  useEffect(() => {
+    if (counterIn && !started.current) { started.current = true; start() }
+  }, [counterIn, start])
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger)
+
+    // Clip-path text reveal on heading
+    if (headRef.current) {
+      gsap.fromTo(
+        headRef.current,
+        { clipPath: 'inset(0 0 100% 0)', opacity: 0, y: 40 },
+        {
+          clipPath: 'inset(0 0 0% 0)',
+          opacity: 1,
+          y: 0,
+          duration: 1.1,
+          ease: 'power4.out',
+          scrollTrigger: {
+            trigger: headRef.current,
+            start: 'top 82%',
+            toggleActions: 'play reverse play reverse',
+          },
+        }
+      )
+    }
+
+    // Badge pop-in
+    if (badgeRef.current) {
+      gsap.fromTo(
+        badgeRef.current,
+        { scale: 0.5, opacity: 0, rotate: -30 },
+        {
+          scale: 1,
+          opacity: 1,
+          rotate: 0,
+          duration: 0.8,
+          ease: 'back.out(1.6)',
+          scrollTrigger: {
+            trigger: badgeRef.current,
+            start: 'top 85%',
+            toggleActions: 'play reverse play reverse',
+          },
+        }
+      )
+    }
+
+    // Counter block slide up
+    if (counterWrapRef.current) {
+      gsap.fromTo(
+        counterWrapRef.current,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.75,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: counterWrapRef.current,
+            start: 'top 85%',
+            toggleActions: 'play reverse play reverse',
+          },
+        }
+      )
+    }
+
+    return () => { ScrollTrigger.getAll().forEach(t => t.kill()) }
+  }, [])
+
+  return (
+    <div className="max-w-[1120px] mx-auto px-[clamp(22px,4vw,56px)] mt-12 pb-14">
+      <div className="h-px bg-white/[0.06] mb-11" />
+      <div className="grid gap-8" style={{ gridTemplateColumns: '1.45fr 0.55fr' }}>
+
+        {/* big lime heading */}
+        <h2 ref={headRef}
+            className="font-archivo font-black uppercase m-0 text-lime leading-[0.97] tracking-tight"
+            style={{ fontSize: 'clamp(32px,5.1vw,66px)' }}>
+          We create impactful experiences for our clients&apos; customers every time they engage with a brand
+        </h2>
+
+        <div className="flex flex-col items-end gap-10">
+          {/* rotating badge */}
+          <div ref={badgeRef} className="relative w-[140px] h-[140px] rounded-full flex-none" style={{ background:'#6C2BD9' }}>
+            <svg className="anim-spin w-full h-full block" style={{ ['--dur' as string]:'16s' }} viewBox="0 0 200 200">
+              <defs>
+                <path id="cp1" d="M100,100 m-72,0 a72,72 0 1,1 144,0 a72,72 0 1,1 -144,0" />
+              </defs>
+              <text fill="#fff" style={{ fontFamily:'inherit', fontSize:17, fontWeight:700, letterSpacing:3 }}>
+                <textPath href="#cp1" startOffset="0">LET&apos;S GET STARTED • LET&apos;S GET STARTED • </textPath>
+              </text>
+            </svg>
+            <span className="absolute inset-0 flex items-center justify-center">
+              <span className="w-[46px] h-[46px] text-white block">
+                <svg viewBox="0 0 100 100" fill="currentColor" className="w-full h-full block">
+                  <rect x="22" y="22" width="56" height="56" rx="20" />
+                  <rect x="22" y="22" width="56" height="56" rx="20" transform="rotate(45 50 50)" />
+                </svg>
+              </span>
+            </span>
+          </div>
+
+          {/* counter */}
+          <div
+            ref={(el) => {
+              (counterRef as React.MutableRefObject<HTMLDivElement | null>).current = el
+              ;(counterWrapRef as React.MutableRefObject<HTMLDivElement | null>).current = el
+            }}
+            className="text-right"
+          >
+            <div className="font-archivo font-extrabold leading-none tracking-tight"
+                 style={{ fontSize: 'clamp(48px,5vw,68px)' }}>
+              {count}<span className="text-lime">+</span>
+            </div>
+            <div className="text-sm text-muted mt-[6px] mb-[14px] pb-[14px] border-b border-white/[0.08]">
+              Project Completed
+            </div>
+            <p className="m-0 text-xs text-[#7a7a7a] leading-[1.55] max-w-[320px] ml-auto">
+              We take pride in our client success stories, where our creative strategies and execution have played a vital role in achieving their business goals.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
