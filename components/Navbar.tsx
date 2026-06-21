@@ -7,7 +7,7 @@ import ThemeToggle from './ThemeToggle'
 
 const links = [
   { label: 'Home',    href: '#home'    },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Contact', href: '/contact' },
 ]
 
 export default function Navbar({ onOpenAbout, onOpenProducts, onOpenFAQ }: {
@@ -101,7 +101,7 @@ export default function Navbar({ onOpenAbout, onOpenProducts, onOpenFAQ }: {
               width="auto" height="auto" background="transparent" borderRadius="9999px"
               borderColor="rgba(255,255,255,0.2)" glareColor="#ffffff"
               glareOpacity={0.35} glareAngle={-30} glareSize={300} transitionDuration={700}>
-              <Link href="#contact"
+              <Link href="/contact"
                 className="inline-flex items-center gap-2 px-[18px] py-[10px]
                            text-sm font-semibold text-white no-underline">
                 Get Started
@@ -173,7 +173,7 @@ export default function Navbar({ onOpenAbout, onOpenProducts, onOpenFAQ }: {
                 { label: 'Product',  action: () => { onOpenProducts?.(); close() } },
                 { label: 'Home',     href: '#home' },
                 { label: 'FAQ',      action: () => { onOpenFAQ?.(); close() } },
-                { label: 'Contact',  href: '#contact' },
+                { label: 'Contact',  href: '/contact' },
               ].map((item, i, arr) =>
                 item.href ? (
                   <Link
@@ -203,7 +203,7 @@ export default function Navbar({ onOpenAbout, onOpenProducts, onOpenFAQ }: {
                 )
               )}
               <Link
-                href="#contact"
+                href="/contact"
                 onClick={close}
                 className="mt-3 mb-1 inline-flex items-center justify-center gap-2 py-[12px] rounded-full
                            text-sm font-semibold text-white no-underline"

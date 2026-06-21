@@ -177,16 +177,16 @@ const ROW2: Tech[] = [
   },
 ]
 
-/* duplicate each row for seamless loop */
-const D1 = [...ROW1, ...ROW1]
-const D2 = [...ROW2, ...ROW2]
+/* triple each row so one copy always covers any viewport width */
+const D1 = [...ROW1, ...ROW1, ...ROW1]
+const D2 = [...ROW2, ...ROW2, ...ROW2]
 
 export default function TechStack() {
   return (
     <section className="py-10 overflow-hidden">
       {/* section label */}
       <motion.div
-        className="flex items-center gap-4 max-w-[1180px] mx-auto px-7 mb-8"
+        className="flex items-center gap-4 max-w-[1180px] mx-auto px-5 sm:px-7 mb-8"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: false, amount: 0.6 }}
@@ -207,7 +207,7 @@ export default function TechStack() {
           WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
         }}
       >
-        <div className="ts-track-left flex gap-4 w-max">
+        <div className="ts-track-left flex gap-4 w-max pr-4">
           {D1.map((tech, i) => (
             <Pill key={i} tech={tech} />
           ))}
@@ -222,7 +222,7 @@ export default function TechStack() {
           WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
         }}
       >
-        <div className="ts-track-right flex gap-4 w-max">
+        <div className="ts-track-right flex gap-4 w-max pr-4">
           {D2.map((tech, i) => (
             <Pill key={i} tech={tech} />
           ))}

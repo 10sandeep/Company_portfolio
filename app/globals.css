@@ -170,10 +170,10 @@ body {
 
 @keyframes ts-left {
   from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  to   { transform: translateX(-33.333%); }
 }
 @keyframes ts-right {
-  from { transform: translateX(-50%); }
+  from { transform: translateX(-33.333%); }
   to   { transform: translateX(0); }
 }
 .ts-track-left  { animation: ts-left  32s linear infinite; }

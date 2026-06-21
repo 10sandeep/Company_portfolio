@@ -94,7 +94,7 @@ export default function CTASection() {
         </motion.p>
 
         <motion.div
-          className="mt-[30px] flex justify-center pb-[72px]"
+          className="mt-[30px] flex justify-center pb-10 sm:pb-[72px]"
           initial={{ opacity: 0, y: 20, scale: 0.95 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: false, amount: 0.6 }}
@@ -113,7 +113,7 @@ export default function CTASection() {
               glareSize={300}
               transitionDuration={700}
             >
-              <Link href="#contact"
+              <Link href="/contact"
                     className="inline-flex items-center gap-2 text-dark px-6 py-[13px]
                                font-semibold text-sm no-underline">
                 Get Started

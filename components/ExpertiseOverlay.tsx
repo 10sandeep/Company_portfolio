@@ -137,7 +137,7 @@ export default function ExpertiseOverlay({ expertiseKey, onClose }: Props) {
     >
       {/* ── Sticky top bar ── */}
       <div
-        className="sticky top-0 z-10 flex items-center justify-between px-7 h-[60px]"
+        className="sticky top-0 z-10 flex items-center justify-between px-4 sm:px-7 h-[60px]"
         style={{ background: 'var(--nav-bg)', backdropFilter: 'blur(12px)', borderBottom: '1px solid var(--border)' }}
       >
         <div className="flex items-center gap-3">

@@ -7,15 +7,15 @@ import { gsap } from 'gsap'
 const team = [
   {
     name: 'Sushree Jyotirmayee Sahoo',
-    role: 'BDE',
-    specialty: 'Business Development & Outreach',
+    role: 'Team Lead',
+    specialty: 'Leadership, Strategy & Client Success',
     initials: 'SJS',
     photo: '/images/sushree.jpeg',
     color: '#19b3c6',
     bgFrom: '#0a1a1e',
     bgTo: '#060d10',
-    bio: 'Sushree drives business growth by identifying the right opportunities and building strategic pipelines. She connects brands with clients that are the perfect fit.',
-    skills: ['Lead Strategy', 'CRM', 'Market Research', 'Analytics'],
+    bio: 'Sushree leads the team with a sharp eye for strategy and an unwavering commitment to client outcomes. She aligns every project with business goals and keeps the team moving at its best.',
+    skills: ['Team Leadership', 'Strategy', 'Client Relations', 'Project Management'],
   },
   {
     name: 'Sandeep Nayak',
@@ -31,39 +31,39 @@ const team = [
   },
   {
     name: 'Subham Mishra',
-    role: 'Backend & AI/ML Developer',
-    specialty: 'Architecture, Engineering & AI',
+    role: 'Full Stack Developer',
+    specialty: 'End-to-End Engineering & AI',
     initials: 'SM',
     photo: '/images/subham.png',
     color: '#C5F23C',
     bgFrom: '#141a0a',
     bgTo: '#0c0f06',
-    bio: 'Subham powers everything under the hood. From scalable APIs and database architecture to machine learning models and AI integrations, he builds backend systems that are reliable, secure, intelligent and ready to grow.',
-    skills: ['Node.js', 'Python', 'PostgreSQL', 'AWS', 'TensorFlow', 'AI/ML'],
+    bio: 'Subham owns the full stack — from pixel-perfect frontends to scalable APIs, cloud infrastructure, and AI integrations. He builds complete products that are fast, reliable, and ready to grow.',
+    skills: ['React', 'Node.js', 'Python', 'PostgreSQL', 'AWS', 'AI/ML'],
   },
 ]
 
-const videos = [
+const PILLARS = [
   {
-    title: 'Agency Showreel 2024',
-    category: 'Showreel',
-    duration: '2:34',
+    num: '01',
+    title: 'Strategy First',
+    body: 'Every creative decision is rooted in a clear strategic brief. Beautiful work that doesn\'t solve a problem is just decoration.',
     accent: '#6C2BD9',
-    desc: 'A full-year look at our best creative work across brand, film and digital.',
+    icon: 'strategy',
   },
   {
-    title: 'The Ordinary — Behind the Campaign',
-    category: 'Case Study',
-    duration: '4:12',
+    num: '02',
+    title: 'Craft in Every Pixel',
+    body: 'We obsess over the details others skip — typography, motion, copy tone — because the finish is what separates good from remembered.',
     accent: '#C5F23C',
-    desc: 'How we rebuilt a skincare brand from clarity up — and shipped it to 30+ markets.',
+    icon: 'craft',
   },
   {
-    title: 'Our Creative Process',
-    category: 'Behind the Scenes',
-    duration: '3:47',
+    num: '03',
+    title: 'Results, Always',
+    body: 'We measure our work by the impact it creates for your business, not the awards it wins. Outcomes over everything.',
     accent: '#19b3c6',
-    desc: 'From brief to launch — a walk through how ideas become campaigns at our studio.',
+    icon: 'results',
   },
 ]
 
@@ -247,91 +247,35 @@ export default function AboutOverlay({ onClose }: { onClose: () => void }) {
         </div>
       </div>
 
-      {/* ── Video Reel ── */}
+      {/* ── What makes us different ── */}
       <div className="max-w-[1180px] mx-auto px-4 sm:px-7 py-12 sm:py-16">
+
+        {/* header */}
         <motion.div
-          className="flex items-end justify-between mb-10"
+          className="flex flex-wrap items-end justify-between gap-4 mb-10 sm:mb-14"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.4 }}
           transition={{ duration: 0.6 }}
         >
           <div>
-            <p className="text-xs font-bold tracking-[2.5px] uppercase text-purple-light mb-3">Our work in motion</p>
+            <p className="text-xs font-bold tracking-[2.5px] uppercase text-purple-light mb-3">What drives us</p>
             <h2 className="font-archivo font-black text-white leading-tight m-0"
                 style={{ fontSize: 'clamp(26px, 3.2vw, 42px)' }}>
-              Watch what we've made.
+              Built different,{' '}
+              <span className="bg-lime text-dark px-[0.08em] rounded-[8px] inline-block"
+                    style={{ transform: 'rotate(-1.5deg)' }}>by design.</span>
             </h2>
           </div>
-          <span className="text-sm text-muted hidden md:block">3 films</span>
+          <p className="text-sm text-muted max-w-[260px] leading-relaxed hidden md:block">
+            Three principles that guide every project we touch.
+          </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
-          {videos.map((v, i) => (
-            <motion.div
-              key={v.title}
-              className="rounded-[22px] overflow-hidden cursor-pointer group relative"
-              style={{ background: 'var(--elevated)', border: '1px solid var(--border-2)' }}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{ duration: 0.6, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
-              whileHover={{ y: -6, transition: { duration: 0.3 } }}
-            >
-              {/* video thumbnail */}
-              <div className="relative overflow-hidden" style={{ height: 200 }}>
-                {/* animated gradient background */}
-                <div className="absolute inset-0"
-                     style={{ background: `linear-gradient(135deg, ${v.accent}33 0%, var(--elevated) 60%)` }} />
-                {/* grid lines decoration */}
-                <svg className="absolute inset-0 w-full h-full opacity-10" viewBox="0 0 400 200" preserveAspectRatio="none">
-                  {[0,1,2,3,4].map(r => (
-                    <line key={`h${r}`} x1="0" y1={r*50} x2="400" y2={r*50} stroke={v.accent} strokeWidth="0.5"/>
-                  ))}
-                  {[0,1,2,3,4,5,6,7,8].map(c => (
-                    <line key={`v${c}`} x1={c*50} y1="0" x2={c*50} y2="200" stroke={v.accent} strokeWidth="0.5"/>
-                  ))}
-                </svg>
-                {/* waveform decoration */}
-                <svg className="absolute bottom-4 left-4 right-4 opacity-30" viewBox="0 0 300 40" style={{ width: 'calc(100% - 32px)' }}>
-                  {Array.from({ length: 40 }).map((_, j) => (
-                    <rect key={j} x={j * 7.5} y={20 - Math.abs(Math.sin(j * 0.7 + i) * 18)}
-                          width="4" height={Math.abs(Math.sin(j * 0.7 + i) * 18) * 2}
-                          rx="2" fill={v.accent} />
-                  ))}
-                </svg>
-                {/* play button */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <motion.div
-                    className="w-14 h-14 rounded-full flex items-center justify-center"
-                    style={{ background: v.accent, boxShadow: `0 0 0 0 ${v.accent}66` }}
-                    animate={{ boxShadow: [`0 0 0 0px ${v.accent}66`, `0 0 0 12px ${v.accent}00`] }}
-                    transition={{ duration: 1.6, repeat: Infinity, ease: 'easeOut' }}
-                  >
-                    <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 ml-0.5"
-                         style={{ color: v.accent === '#C5F23C' ? '#0A0A0B' : '#fff' }}>
-                      <polygon points="5 3 19 12 5 21 5 3"/>
-                    </svg>
-                  </motion.div>
-                </div>
-                {/* duration */}
-                <span className="absolute top-3 right-3 text-[11px] font-semibold px-2 py-1 rounded-md"
-                      style={{ background: 'rgba(0,0,0,0.7)', color: '#fff' }}>
-                  {v.duration}
-                </span>
-                {/* category */}
-                <span className="absolute top-3 left-3 text-[10px] font-bold tracking-[1.5px] uppercase px-2 py-1 rounded-md"
-                      style={{ background: v.accent + '33', color: v.accent }}>
-                  {v.category}
-                </span>
-              </div>
-
-              {/* card body */}
-              <div className="p-5">
-                <h3 className="font-archivo font-bold text-white text-[16px] leading-tight mb-2">{v.title}</h3>
-                <p className="text-sm text-muted leading-[1.55] m-0">{v.desc}</p>
-              </div>
-            </motion.div>
+        {/* pillar cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          {PILLARS.map((p, i) => (
+            <PillarCard key={p.num} pillar={p} index={i} />
           ))}
         </div>
       </div>
@@ -652,6 +596,137 @@ function TeamCard({ member, index }: { member: TeamMember; index: number }) {
                  className="w-[14px] h-[14px]"
                  style={{ color: member.color }}>
               <line x1="7" y1="17" x2="17" y2="7"/><polyline points="8 7 17 7 17 16"/>
+            </svg>
+          </motion.div>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
+/* ── Pillar icons ── */
+function PillarIcon({ type, color }: { type: string; color: string }) {
+  if (type === 'strategy') return (
+    <svg viewBox="0 0 32 32" fill="none" className="w-7 h-7">
+      <circle cx="16" cy="16" r="7" stroke={color} strokeWidth="2" opacity="0.9"/>
+      <circle cx="16" cy="16" r="2.5" fill={color}/>
+      <line x1="16" y1="2" x2="16" y2="7" stroke={color} strokeWidth="2" strokeLinecap="round"/>
+      <line x1="16" y1="25" x2="16" y2="30" stroke={color} strokeWidth="2" strokeLinecap="round"/>
+      <line x1="2" y1="16" x2="7" y2="16" stroke={color} strokeWidth="2" strokeLinecap="round"/>
+      <line x1="25" y1="16" x2="30" y2="16" stroke={color} strokeWidth="2" strokeLinecap="round"/>
+    </svg>
+  )
+  if (type === 'craft') return (
+    <svg viewBox="0 0 32 32" fill="none" className="w-7 h-7">
+      <path d="M16 3 L18.5 11.5 L27 11.5 L20.5 17 L23 25.5 L16 20.5 L9 25.5 L11.5 17 L5 11.5 L13.5 11.5 Z"
+            stroke={color} strokeWidth="1.8" strokeLinejoin="round" fill={color + '22'}/>
+    </svg>
+  )
+  return (
+    <svg viewBox="0 0 32 32" fill="none" className="w-7 h-7">
+      <polyline points="3,22 11,13 17,18 29,7" stroke={color} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+      <polyline points="22,7 29,7 29,14" stroke={color} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+      <line x1="3" y1="27" x2="29" y2="27" stroke={color} strokeWidth="1.5" strokeLinecap="round" opacity="0.35"/>
+    </svg>
+  )
+}
+
+/* ── Pillar card ── */
+function PillarCard({ pillar, index }: { pillar: typeof PILLARS[0]; index: number }) {
+  const [hovered, setHovered] = useState(false)
+  const isLight = pillar.accent === '#C5F23C'
+
+  return (
+    <motion.div
+      className="relative rounded-[24px] overflow-hidden flex flex-col cursor-default"
+      style={{ background: 'var(--elevated)', border: '1px solid var(--border-2)' }}
+      initial={{ opacity: 0, y: 50, scale: 0.96 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: false, amount: 0.2 }}
+      transition={{ duration: 0.65, delay: index * 0.13, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{ y: -8, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] } }}
+      onHoverStart={() => setHovered(true)}
+      onHoverEnd={() => setHovered(false)}
+    >
+      {/* animated top accent bar */}
+      <motion.div
+        className="absolute top-0 left-0 right-0 h-[3px]"
+        style={{ background: pillar.accent, transformOrigin: 'left' }}
+        animate={{ scaleX: hovered ? 1 : 0 }}
+        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      />
+
+      {/* animated glow behind card on hover */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none rounded-[24px]"
+        animate={{ opacity: hovered ? 1 : 0 }}
+        transition={{ duration: 0.4 }}
+        style={{ boxShadow: `0 0 40px ${pillar.accent}22`, border: `1px solid ${pillar.accent}33` }}
+      />
+
+      {/* large decorative bg number */}
+      <div className="absolute bottom-4 right-5 font-archivo font-black select-none pointer-events-none"
+           style={{ fontSize: 88, lineHeight: 1, color: pillar.accent, opacity: 0.06, letterSpacing: '-4px' }}>
+        {pillar.num}
+      </div>
+
+      <div className="relative z-[1] p-7 flex flex-col gap-6 flex-1">
+
+        {/* icon circle with pulse ring */}
+        <div className="relative w-14 h-14 flex-none">
+          <motion.div
+            className="absolute inset-0 rounded-full"
+            style={{ background: pillar.accent + '15', border: `1px solid ${pillar.accent}40` }}
+            animate={{ scale: hovered ? [1, 1.22, 1] : 1, opacity: hovered ? [1, 0.5, 0] : 0 }}
+            transition={{ duration: 0.9, ease: 'easeOut', repeat: hovered ? Infinity : 0 }}
+          />
+          <div
+            className="absolute inset-0 rounded-full flex items-center justify-center"
+            style={{ background: pillar.accent + '18', border: `1px solid ${pillar.accent}44` }}
+          >
+            <PillarIcon type={pillar.icon} color={pillar.accent} />
+          </div>
+        </div>
+
+        {/* number tag */}
+        <span
+          className="text-[10px] font-bold tracking-[2.5px] font-mono"
+          style={{ color: pillar.accent, opacity: 0.7 }}
+        >
+          {pillar.num}
+        </span>
+
+        {/* title */}
+        <motion.h3
+          className="font-archivo font-black leading-tight m-0"
+          style={{ fontSize: 'clamp(22px, 2.2vw, 28px)', color: '#ffffff' }}
+          animate={{ color: hovered ? pillar.accent : '#ffffff' }}
+          transition={{ duration: 0.35 }}
+        >
+          {pillar.title}
+        </motion.h3>
+
+        {/* body */}
+        <p className="text-sm text-muted leading-[1.65] m-0 flex-1">
+          {pillar.body}
+        </p>
+
+        {/* bottom line with animated arrow */}
+        <div className="flex items-center justify-between pt-4"
+             style={{ borderTop: `1px solid ${pillar.accent}22` }}>
+          <motion.div
+            className="h-[2px] rounded-full"
+            style={{ background: pillar.accent, transformOrigin: 'left' }}
+            animate={{ width: hovered ? '60%' : '24px' }}
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          />
+          <motion.div
+            animate={{ x: hovered ? 4 : 0, opacity: hovered ? 1 : 0.3 }}
+            transition={{ duration: 0.3 }}
+          >
+            <svg viewBox="0 0 20 20" fill="none" className="w-4 h-4" style={{ color: pillar.accent }}>
+              <line x1="4" y1="16" x2="16" y2="4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              <polyline points="8,4 16,4 16,12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </motion.div>
         </div>
