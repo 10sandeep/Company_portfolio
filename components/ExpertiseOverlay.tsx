@@ -133,7 +133,7 @@ export default function ExpertiseOverlay({ expertiseKey, onClose }: Props) {
     <div
       ref={panelRef}
       className="fixed inset-0 z-[200] overflow-y-auto"
-      style={{ background: 'var(--dark)', willChange: 'transform' }}
+      style={{ background: 'var(--dark)', willChange: 'transform', scrollBehavior: 'smooth' }}
     >
       {/* ── Sticky top bar ── */}
       <div

@@ -4,9 +4,12 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { PROJECTS } from '@/lib/projects'
 
-interface Props { onOpen: (key: string) => void }
+interface Props {
+  onOpen: (key: string) => void
+  onOpenProducts?: () => void
+}
 
-export default function RecentWork({ onOpen }: Props) {
+export default function RecentWork({ onOpen, onOpenProducts }: Props) {
   const { zipto, customer_app, rider_app, eazydrivez, sjdecors } = PROJECTS
 
   return (
@@ -53,7 +56,72 @@ export default function RecentWork({ onOpen }: Props) {
           <ProjectCard data={rider_app}    onOpen={onOpen} imageHeight={240} desktopHeight={320} colIndex={1} rowIndex={1} />
         </div>
       </div>
+
+      {/* ── View All Products button ── */}
+      <motion.div
+        className="relative z-[2] flex justify-center mt-14 sm:mt-16"
+        initial={{ opacity: 0, y: 32 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, amount: 0.6 }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <ViewAllButton onClick={onOpenProducts} />
+      </motion.div>
     </section>
+  )
+}
+
+/* ── View All Products button ── */
+function ViewAllButton({ onClick }: { onClick?: () => void }) {
+  const [hovered, setHovered] = useState(false)
+
+  return (
+    <motion.button
+      onClick={onClick}
+      onHoverStart={() => setHovered(true)}
+      onHoverEnd={() => setHovered(false)}
+      whileTap={{ scale: 0.95 }}
+      className="relative inline-flex items-center gap-3 px-8 py-[15px] rounded-full cursor-pointer border-0 overflow-hidden"
+      style={{ border: '1px solid rgba(255,255,255,0.16)', background: 'transparent' }}
+    >
+      {/* lime fill sweep from left */}
+      <motion.span
+        className="absolute inset-0 rounded-full"
+        style={{ background: '#C5F23C', originX: 0 }}
+        animate={{ scaleX: hovered ? 1 : 0 }}
+        transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
+      />
+
+      {/* label */}
+      <motion.span
+        className="relative z-10 font-semibold text-sm tracking-wide"
+        animate={{ color: hovered ? '#0B0B0B' : '#ffffff' }}
+        transition={{ duration: 0.25 }}
+      >
+        View All Products
+      </motion.span>
+
+      {/* arrow in circle */}
+      <motion.span
+        className="relative z-10 flex items-center justify-center w-8 h-8 rounded-full"
+        animate={{
+          backgroundColor: hovered ? 'rgba(0,0,0,0.14)' : 'rgba(255,255,255,0.1)',
+          x: hovered ? 5 : 0,
+        }}
+        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <motion.svg
+          viewBox="0 0 24 24" fill="none" strokeWidth="2.3"
+          strokeLinecap="round" strokeLinejoin="round"
+          className="w-[15px] h-[15px]"
+          animate={{ stroke: hovered ? '#0B0B0B' : '#ffffff', rotate: hovered ? -45 : 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <polyline points="13 6 19 12 13 18" />
+        </motion.svg>
+      </motion.span>
+    </motion.button>
   )
 }
 

@@ -6,8 +6,9 @@ import GlareHover from './GlareHover'
 import ThemeToggle from './ThemeToggle'
 
 const links = [
-  { label: 'Home',    href: '#home'    },
-  { label: 'Contact', href: '/contact' },
+  { label: 'Home',     href: '#home'     },
+  { label: 'Services', href: '/services' },
+  { label: 'Contact',  href: '/contact'  },
 ]
 
 export default function Navbar({ onOpenAbout, onOpenProducts, onOpenFAQ }: {
@@ -172,6 +173,7 @@ export default function Navbar({ onOpenAbout, onOpenProducts, onOpenFAQ }: {
                 { label: 'About Us', action: () => { onOpenAbout?.(); close() } },
                 { label: 'Product',  action: () => { onOpenProducts?.(); close() } },
                 { label: 'Home',     href: '#home' },
+                { label: 'Services', href: '/services' },
                 { label: 'FAQ',      action: () => { onOpenFAQ?.(); close() } },
                 { label: 'Contact',  href: '/contact' },
               ].map((item, i, arr) =>

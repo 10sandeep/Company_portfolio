@@ -21,8 +21,14 @@ import FAQOverlay      from '@/components/FAQOverlay'
 
 export default function Home() {
   useEffect(() => {
-    if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
-    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
+    const nav = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined
+    const isReload = nav?.type === 'reload'
+    if (isReload) {
+      if ('scrollRestoration' in history) history.scrollRestoration = 'auto'
+    } else {
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
+      window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
+    }
   }, [])
 
   const [activeKey, setActiveKey]       = useState<string | null>(null)
@@ -48,7 +54,7 @@ export default function Home() {
       <TechStack />
       <Expertise />
       <Statement />
-      <RecentWork onOpen={openProject} />
+      <RecentWork onOpen={openProject} onOpenProducts={openProducts} />
       <LogoWall />
       <Contact />
       <CTASection />

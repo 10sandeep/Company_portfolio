@@ -45,7 +45,7 @@ export default function ProjectOverlay({ project, onClose }: Props) {
     <div
       ref={panelRef}
       className="fixed inset-0 z-[200] overflow-y-auto"
-      style={{ background: 'var(--dark)', willChange: 'transform' }}
+      style={{ background: 'var(--dark)', willChange: 'transform', scrollBehavior: 'smooth' }}
     >
       {/* ── Sticky top bar ── */}
       <div className="sticky top-0 z-10 flex items-center justify-between px-4 sm:px-7 h-[60px]"
@@ -135,7 +135,7 @@ export default function ProjectOverlay({ project, onClose }: Props) {
 
         {/* Meta strip */}
         <motion.div
-          className="grid grid-cols-3 gap-4 sm:gap-6 pb-8 sm:pb-10 mb-8 sm:mb-10"
+          className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 pb-8 sm:pb-10 mb-8 sm:mb-10"
           style={{ borderBottom: '1px solid var(--border)' }}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -150,7 +150,7 @@ export default function ProjectOverlay({ project, onClose }: Props) {
         </motion.div>
 
         {/* Two-column body */}
-        <div className="grid gap-10 md:gap-16 grid-cols-1 md:[grid-template-columns:1.1fr_0.9fr]">
+        <div className="grid gap-8 sm:gap-10 md:gap-16 grid-cols-1 md:[grid-template-columns:1.1fr_0.9fr]">
 
           {/* left: overview + challenge */}
           <motion.div

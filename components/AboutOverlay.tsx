@@ -102,7 +102,7 @@ export default function AboutOverlay({ onClose }: { onClose: () => void }) {
     <div
       ref={panelRef}
       className="fixed inset-0 z-[200] overflow-y-auto"
-      style={{ background: 'var(--dark)', willChange: 'transform' }}
+      style={{ background: 'var(--dark)', willChange: 'transform', scrollBehavior: 'smooth' }}
     >
       {/* ── Sticky top bar ── */}
       <div className="sticky top-0 z-10 flex items-center justify-between px-4 sm:px-7 h-[60px]"
@@ -175,7 +175,7 @@ export default function AboutOverlay({ onClose }: { onClose: () => void }) {
 
         {/* stats row */}
         <motion.div
-          className="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-10 sm:mt-14 pt-8 sm:pt-10"
+          className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 mt-8 sm:mt-14 pt-6 sm:pt-10"
           style={{ borderTop: '1px solid var(--border)' }}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}

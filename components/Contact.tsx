@@ -69,7 +69,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className="max-w-[1180px] mx-auto px-5 sm:px-7 py-12 sm:py-16" style={{ scrollMarginTop: '80px' }}>
-      <div className="grid gap-10 md:gap-14 grid-cols-1 md:[grid-template-columns:0.9fr_1.1fr]">
+      <div className="grid gap-6 sm:gap-10 md:gap-14 grid-cols-1 md:[grid-template-columns:0.9fr_1.1fr]">
 
         <motion.div
           initial={{ opacity: 0, x: -60 }}

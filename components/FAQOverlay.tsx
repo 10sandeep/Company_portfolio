@@ -134,7 +134,7 @@ export default function FAQOverlay({ onClose }: Props) {
     <div
       ref={panelRef}
       className="fixed inset-0 z-[200] overflow-y-auto"
-      style={{ background: 'var(--dark)', willChange: 'transform' }}
+      style={{ background: 'var(--dark)', willChange: 'transform', scrollBehavior: 'smooth' }}
     >
       {/* ── Sticky top bar ── */}
       <div
@@ -229,13 +229,13 @@ export default function FAQOverlay({ onClose }: Props) {
 
       {/* divider */}
       <motion.div
-        className="h-px mx-7" style={{ background: 'var(--border)' }}
+        className="h-px mx-4 sm:mx-7" style={{ background: 'var(--border)' }}
         initial={{ scaleX: 0, originX: 0 }} animate={{ scaleX: 1 }}
         transition={{ duration: 0.8, delay: 0.5 }}
       />
 
       {/* ── FAQ sections ── */}
-      <div className="max-w-[1180px] mx-auto px-4 sm:px-7 py-10 sm:py-14 flex flex-col gap-12 sm:gap-16">
+      <div className="max-w-[1180px] mx-auto px-4 sm:px-7 py-10 sm:py-14 flex flex-col gap-8 sm:gap-12 md:gap-16">
         {SECTIONS.map((section, si) => (
           <motion.div
             key={section.label}
@@ -350,7 +350,7 @@ function AccordionItem({ item, accent, delay }: { item: FAQ; accent: string; del
       onClick={() => setOpen(!open)}
     >
       {/* question row */}
-      <div className="flex items-center justify-between gap-4 px-6 py-5">
+      <div className="flex items-center justify-between gap-3 px-4 sm:px-6 py-4 sm:py-5">
         <div className="flex items-center gap-4">
           {/* accent dot */}
           <span
@@ -391,7 +391,7 @@ function AccordionItem({ item, accent, delay }: { item: FAQ; accent: string; del
             transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
             style={{ overflow: 'hidden' }}
           >
-            <div className="px-6 pb-6 pl-[52px]">
+            <div className="px-4 sm:px-6 pb-5 sm:pb-6 sm:pl-[52px] pl-4">
               <div className="h-px mb-5" style={{ background: 'var(--border)' }} />
               <p className="text-[14px] leading-[1.78] m-0" style={{ color: 'var(--text-body)' }}>
                 {item.a}

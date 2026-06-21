@@ -100,7 +100,7 @@ export default function Statement() {
   return (
     <div className="max-w-[1180px] mx-auto px-5 sm:px-7 mt-12 pb-14">
       <div className="h-px bg-white/[0.06] mb-11" />
-      <div className="grid gap-8 grid-cols-1 md:[grid-template-columns:1.45fr_0.55fr]">
+      <div className="grid gap-6 sm:gap-8 grid-cols-1 md:[grid-template-columns:1.45fr_0.55fr]">
 
         {/* word-by-word scroll reveal heading */}
         <h2

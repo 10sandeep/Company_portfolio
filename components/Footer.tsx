@@ -11,6 +11,7 @@ interface FooterProps {
   onOpenAbout?:    () => void
   onOpenProducts?: () => void
   onOpenFAQ?:      () => void
+  noAnimation?:    boolean
 }
 
 const QUICK_LINKS = [
@@ -51,7 +52,7 @@ function SocialBtn({ href, label, children }: { href: string; label: string; chi
   )
 }
 
-export default function Footer({ onOpenAbout, onOpenProducts, onOpenFAQ }: FooterProps) {
+export default function Footer({ onOpenAbout, onOpenProducts, onOpenFAQ, noAnimation }: FooterProps) {
   const [email,        setEmail]        = useState('')
   const [sent,         setSent]         = useState(false)
   const [emailFocused, setEmailFocused] = useState(false)
@@ -69,6 +70,7 @@ export default function Footer({ onOpenAbout, onOpenProducts, onOpenFAQ }: Foote
   const privacyRef  = useRef<HTMLAnchorElement>(null)
 
   useEffect(() => {
+    if (noAnimation) return
     const ctx = gsap.context(() => {
 
       /* ── 1. Footer card: scale + fade up ── */
@@ -163,7 +165,7 @@ export default function Footer({ onOpenAbout, onOpenProducts, onOpenFAQ }: Foote
     }, footerRef)
 
     return () => ctx.revert()
-  }, [])
+  }, [noAnimation])
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -188,7 +190,7 @@ export default function Footer({ onOpenAbout, onOpenProducts, onOpenFAQ }: Foote
         {/* ── Main grid ── */}
         <div
           ref={gridRef}
-          className="grid gap-12 sm:gap-14 pt-14 sm:pt-20 grid-cols-1 md:grid-cols-[1.7fr_1fr_1fr]"
+          className="grid gap-8 sm:gap-12 md:gap-14 pt-10 sm:pt-14 md:pt-20 grid-cols-1 md:grid-cols-[1.7fr_1fr_1fr]"
         >
 
           {/* ── Left: brand + tagline + email ── */}
