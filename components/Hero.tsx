@@ -59,7 +59,10 @@ export default function Hero() {
       />
 
       {/* Main content — centred vertically */}
-      <div className="flex-1 flex flex-col items-center justify-center text-center px-5 sm:px-8 pt-8 pb-10">
+      <div
+        className="flex-1 flex flex-col items-center justify-center text-center px-5 sm:px-8 pb-10"
+        style={{ paddingTop: 'calc(var(--banner-h, 0px) + 120px)' }}
+      >
 
         {/* Tag pill */}
         <div

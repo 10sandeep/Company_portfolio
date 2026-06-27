@@ -90,7 +90,7 @@ export default function WhatWeDo() {
       </motion.div>
 
       {/* alternating sections */}
-      <div className="flex flex-col gap-16 sm:gap-24">
+      <div className="flex flex-col gap-10 sm:gap-16 lg:gap-24">
         {SECTIONS.map((s, i) => {
           const isEven = i % 2 === 0
           return (

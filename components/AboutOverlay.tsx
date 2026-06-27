@@ -187,7 +187,7 @@ export default function AboutOverlay({ onClose }: { onClose: () => void }) {
           </span>
         </div>
 
-      <div className="relative max-w-[1180px] mx-auto px-5 sm:px-8 pt-16 sm:pt-24 pb-16 sm:pb-20">
+      <div className="relative max-w-[1180px] mx-auto px-5 sm:px-8 pt-8 sm:pt-20 pb-10 sm:pb-16">
 
         <motion.div
           className="inline-flex items-center gap-2 mb-7 px-4 py-[7px] rounded-full"

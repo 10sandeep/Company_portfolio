@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -195,14 +196,15 @@ export default function Footer({ onOpenAbout, onOpenProducts, onOpenFAQ, noAnima
 
           {/* ── Left: brand + tagline + email ── */}
           <div ref={leftColRef} className="flex flex-col gap-8">
-            <div className="flex items-center gap-[9px]">
-              <span className="w-[24px] h-[24px] text-lime block flex-none">
-                <svg viewBox="0 0 100 100" fill="currentColor" className="w-full h-full">
-                  <rect x="22" y="22" width="56" height="56" rx="20"/>
-                  <rect x="22" y="22" width="56" height="56" rx="20" transform="rotate(45 50 50)"/>
-                </svg>
-              </span>
-              <span className="font-archivo font-extrabold text-[20px] text-lime leading-none">Sandeep Nayak</span>
+            <div>
+              <Image
+                src="/images/logo.png"
+                alt="Bloom Stack"
+                width={480}
+                height={128}
+                className="w-auto object-contain"
+                style={{ height: '120px', mixBlendMode: 'screen' }}
+              />
             </div>
 
             {/* Tagline — words wrapped for stagger */}

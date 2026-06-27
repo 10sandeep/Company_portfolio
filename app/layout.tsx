@@ -24,8 +24,56 @@ const robotoMono = Roboto_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Sandeep Nayak — Creative Agency',
-  description: 'Crafting experiences that inspire. Elevate your brand with creative magic.',
+  metadataBase: new URL('https://bloomstack.in'),
+
+  title: {
+    default: 'Bloom Stack — Apps, Websites & AI Solutions',
+    template: '%s | Bloom Stack',
+  },
+  description:
+    'Bloom Stack builds high-performance mobile apps, modern websites, and intelligent AI solutions for startups and businesses. From idea to launch — design, development, and strategy under one roof.',
+  keywords: [
+    'app development',
+    'web development',
+    'AI solutions',
+    'mobile app development',
+    'React',
+    'Next.js',
+    'UI UX design',
+    'startup agency',
+    'software agency India',
+    'Bloom Stack',
+  ],
+  authors: [{ name: 'Bloom Stack', url: 'https://bloomstack.in' }],
+  creator: 'Bloom Stack',
+  publisher: 'Bloom Stack',
+
+  openGraph: {
+    type: 'website',
+    url: 'https://bloomstack.in',
+    siteName: 'Bloom Stack',
+    title: 'Bloom Stack — Apps, Websites & AI Solutions',
+    description:
+      'We build high-performance mobile apps, modern websites, and intelligent AI solutions for startups and businesses.',
+    images: [
+      {
+        url: '/images/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Bloom Stack — Apps, Websites & AI Solutions',
+      },
+    ],
+  },
+
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Bloom Stack — Apps, Websites & AI Solutions',
+    description:
+      'We build high-performance mobile apps, modern websites, and intelligent AI solutions for startups and businesses.',
+    images: ['/images/og-image.png'],
+    creator: '@bloomstack',
+  },
+
   icons: {
     icon: [
       { url: '/images/fevicon.png', sizes: '32x32', type: 'image/png' },
@@ -34,6 +82,12 @@ export const metadata: Metadata = {
     ],
     shortcut: '/images/fevicon.png',
     apple: { url: '/images/fevicon.png', sizes: '180x180' },
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
   },
 }
 

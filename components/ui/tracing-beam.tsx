@@ -50,7 +50,7 @@ export const TracingBeam = ({
     >
       {/* Beam rail — clipped to the container so it never overflows past RecentWork */}
       <div
-        className="absolute left-4 md:left-8 top-0 pointer-events-none"
+        className="hidden md:block absolute left-8 top-0 pointer-events-none"
         style={{ height: svgHeight || "100%", overflow: "hidden" }}
       >
         {/* Starting dot — centred on the path line (x = 10 of 20 px SVG) */}

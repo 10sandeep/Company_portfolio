@@ -349,7 +349,7 @@ function CardGrid({ cards, accent = '#6C2BD9' }: { cards: typeof WEB_CARDS; acce
 
 function StatBar({ stats, accent = '#6C2BD9' }: { stats: { value: string; label: string }[]; accent?: string }) {
   return (
-    <div className="grid grid-cols-3 gap-4 sm:gap-6 mt-8 mb-2">
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mt-8 mb-2">
       {stats.map((s, i) => {
         const [hovered, setHovered] = useState(false)
         return (

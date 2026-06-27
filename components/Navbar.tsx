@@ -43,7 +43,7 @@ export default function Navbar({ onOpenAbout, onOpenProducts, onOpenFAQ }: {
       }}
     >
       {/* ── Pill wrapper (handles centering + beam border) ── */}
-      <div style={{ position: 'relative', maxWidth: scrolled ? '1020px' : '1280px', margin: '0 auto' }}>
+      <div style={{ position: 'relative', maxWidth: scrolled ? '1020px' : '1280px', margin: '0 auto', padding: scrolled ? undefined : '0 4px' }}>
 
         {/* ── Beam border (pill state only) ── */}
         <AnimatePresence>
@@ -86,15 +86,15 @@ export default function Navbar({ onOpenAbout, onOpenProducts, onOpenFAQ }: {
           style={{
             position: 'relative',
             zIndex: 1,
-            height: scrolled ? '64px' : '80px',
-            padding: '0 28px',
+            height: scrolled ? '80px' : '120px',
+            padding: scrolled ? '0 20px' : '0 14px',
             background: scrolled ? 'rgba(9,5,20,0.92)' : 'transparent',
             backdropFilter: scrolled ? 'saturate(160%) blur(20px)' : 'none',
             WebkitBackdropFilter: scrolled ? 'saturate(160%) blur(20px)' : 'none',
             borderRadius: scrolled ? '9999px' : '0',
             border: scrolled ? 'none' : '1px solid transparent',
             boxShadow: scrolled ? '0 8px 32px rgba(0,0,0,0.35)' : 'none',
-            transition: 'height 0.55s cubic-bezier(0.16,1,0.3,1), background 0.4s, border-radius 0.55s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s',
+            transition: 'height 0.55s cubic-bezier(0.16,1,0.3,1), padding 0.55s cubic-bezier(0.16,1,0.3,1), background 0.4s, border-radius 0.55s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s',
           }}
         >
           {/* ── Logo ── */}
@@ -107,7 +107,7 @@ export default function Navbar({ onOpenAbout, onOpenProducts, onOpenFAQ }: {
               className="w-auto object-contain"
               style={{
                 mixBlendMode: 'screen',
-                height: scrolled ? '72px' : '84px',
+                height: scrolled ? '70px' : '120px',
                 transition: 'height 0.55s cubic-bezier(0.16,1,0.3,1)',
               }}
               priority

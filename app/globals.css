@@ -225,3 +225,16 @@ body {
 @media (min-width: 768px) {
   .project-card-img { height: var(--h-md); }
 }
+
+/* ── iOS safe-area support ── */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+/* ── Touch: prevent x-overflow from full-bleed sections ── */
+@media (max-width: 640px) {
+  html, body { overscroll-behavior-x: none; }
+}

@@ -189,7 +189,7 @@ export default function ProductsOverlay({ onClose }: Props) {
       </div>
 
       {/* ── Hero ── */}
-      <div className="relative overflow-hidden px-4 sm:px-7 pt-10 sm:pt-14 pb-8 sm:pb-10 max-w-[1180px] mx-auto">
+      <div className="relative overflow-hidden px-4 sm:px-7 pt-6 sm:pt-12 pb-6 sm:pb-10 max-w-[1180px] mx-auto">
         {/* ghost text background */}
         <div
           className="absolute top-0 left-0 font-archivo font-black leading-none select-none pointer-events-none"
