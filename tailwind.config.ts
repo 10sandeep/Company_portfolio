@@ -20,7 +20,7 @@ const config: Config = {
       },
       fontFamily: {
         archivo: ['var(--font-archivo)', 'sans-serif'],
-        hanken:  ['var(--font-hanken)', 'sans-serif'],
+        inter:   ['var(--font-inter)', 'sans-serif'],
         mono:    ['var(--font-roboto-mono)', 'monospace'],
       },
     },

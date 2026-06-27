@@ -192,11 +192,11 @@ export default function TechStack() {
         viewport={{ once: false, amount: 0.6 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className="h-px flex-1" style={{ background: 'rgba(255,255,255,0.07)' }} />
+        <div className="h-px flex-1" style={{ background: 'var(--border)' }} />
         <span className="text-[11px] font-bold tracking-[2.5px] uppercase text-muted whitespace-nowrap">
           Tech Stack We Use
         </span>
-        <div className="h-px flex-1" style={{ background: 'rgba(255,255,255,0.07)' }} />
+        <div className="h-px flex-1" style={{ background: 'var(--border)' }} />
       </motion.div>
 
       {/* ── Row 1 – scrolls left ── */}
@@ -239,7 +239,6 @@ function Pill({ tech }: { tech: Tech }) {
                  transition-all duration-300 cursor-default"
       style={{
         background: tech.color + '16',
-        border: `1px solid ${tech.color}35`,
         color: tech.color,
       }}
     >

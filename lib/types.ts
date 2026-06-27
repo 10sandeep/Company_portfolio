@@ -14,4 +14,7 @@ export interface Project {
   services: string[]
   results: Result[]
   image: string
+  websiteUrl?: string
+  appStoreUrl?: string
+  playStoreUrl?: string
 }

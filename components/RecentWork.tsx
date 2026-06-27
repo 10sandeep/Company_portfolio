@@ -3,6 +3,8 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { PROJECTS } from '@/lib/projects'
+import { CornerMarks } from '@/components/ui/corner-marks'
+import { NumberTicker } from '@/components/ui/number-ticker'
 
 interface Props {
   onOpen: (key: string) => void
@@ -13,27 +15,19 @@ export default function RecentWork({ onOpen, onOpenProducts }: Props) {
   const { zipto, customer_app, rider_app, eazydrivez, sjdecors } = PROJECTS
 
   return (
-    <section id="product"
-             className="relative max-w-[1180px] mx-auto px-5 sm:px-7 py-14 sm:py-20"
-             style={{ scrollMarginTop: '80px' }}>
-
-      {/* floating lime shapes */}
-      <div className="absolute top-10 -right-8 w-[340px] h-[340px] pointer-events-none z-0">
-        <div className="anim-float relative w-full h-full" style={{ ['--dur' as string]:'7s' }}>
-          <span className="absolute top-0 right-10 w-[200px] h-[200px] text-lime opacity-25">
-            <svg viewBox="0 0 100 100" fill="currentColor" className="w-full h-full">
-              <rect x="22" y="22" width="56" height="56" rx="20" />
-              <rect x="22" y="22" width="56" height="56" rx="20" transform="rotate(45 50 50)" />
-            </svg>
-          </span>
-        </div>
-      </div>
+    <section id="product" style={{ background: '#ffffff', scrollMarginTop: '80px' }} className="overflow-hidden">
+    <div className="relative max-w-[1180px] mx-auto px-5 sm:px-7 py-14 sm:py-20">
 
       <div className="relative z-[2]">
-        <p className="text-purple-light font-bold text-xs tracking-[2.5px] mb-[18px]">RECENT WORK</p>
+        <div className="flex items-center gap-3 mb-[18px]">
+          <p className="font-bold text-xs tracking-[2.5px] m-0" style={{ color: '#7c3aed' }}>RECENT WORK</p>
+          <span className="text-xs font-bold px-2 py-[3px] rounded-full" style={{ background: 'rgba(108,43,217,0.10)', color: '#7c3aed' }}>
+            <NumberTicker value={5} suffix=" Projects" once={false} />
+          </span>
+        </div>
         <motion.h2
           className="font-archivo font-bold max-w-[640px] leading-[1.18] tracking-tight m-0"
-          style={{ fontSize:'clamp(24px,3.1vw,36px)' }}
+          style={{ fontSize:'clamp(24px,3.1vw,36px)', color: '#0b0b0b' }}
           initial={{ opacity: 0, y: 36 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.3 }}
@@ -43,17 +37,17 @@ export default function RecentWork({ onOpen, onOpenProducts }: Props) {
         </motion.h2>
       </div>
 
-      <div className="relative z-[2] grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-[34px] mt-10 md:mt-14">
+      <div className="relative z-[2] grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-[60px] mt-10 md:mt-14">
         {/* left column */}
-        <div className="flex flex-col gap-6 md:gap-10">
-          <ProjectCard data={zipto}        onOpen={onOpen} imageHeight={260} desktopHeight={340} colIndex={0} rowIndex={0} />
-          <ProjectCard data={eazydrivez}   onOpen={onOpen} imageHeight={220} desktopHeight={300} colIndex={0} rowIndex={1} />
-          <ProjectCard data={sjdecors}     onOpen={onOpen} imageHeight={220} desktopHeight={300} colIndex={0} rowIndex={2} />
+        <div className="flex flex-col gap-10 md:gap-14">
+          <ProjectCard data={zipto}        onOpen={onOpen} imageHeight={300} desktopHeight={400} colIndex={0} rowIndex={0} />
+          <ProjectCard data={eazydrivez}   onOpen={onOpen} imageHeight={260} desktopHeight={360} colIndex={0} rowIndex={1} />
+          <ProjectCard data={sjdecors}     onOpen={onOpen} imageHeight={260} desktopHeight={360} colIndex={0} rowIndex={2} />
         </div>
         {/* right column (staggered on desktop) */}
-        <div className="flex flex-col gap-6 md:gap-10 md:pt-[90px]">
-          <ProjectCard data={customer_app} onOpen={onOpen} imageHeight={240} desktopHeight={320} colIndex={1} rowIndex={0} spinning />
-          <ProjectCard data={rider_app}    onOpen={onOpen} imageHeight={240} desktopHeight={320} colIndex={1} rowIndex={1} />
+        <div className="flex flex-col gap-10 md:gap-14 md:pt-[100px]">
+          <ProjectCard data={customer_app} onOpen={onOpen} imageHeight={280} desktopHeight={380} colIndex={1} rowIndex={0} spinning />
+          <ProjectCard data={rider_app}    onOpen={onOpen} imageHeight={280} desktopHeight={380} colIndex={1} rowIndex={1} />
         </div>
       </div>
 
@@ -67,6 +61,7 @@ export default function RecentWork({ onOpen, onOpenProducts }: Props) {
       >
         <ViewAllButton onClick={onOpenProducts} />
       </motion.div>
+    </div>
     </section>
   )
 }
@@ -74,6 +69,8 @@ export default function RecentWork({ onOpen, onOpenProducts }: Props) {
 /* ── View All Products button ── */
 function ViewAllButton({ onClick }: { onClick?: () => void }) {
   const [hovered, setHovered] = useState(false)
+  const idleColor = '#0b0b0b'
+  const idleStroke = '#0b0b0b'
 
   return (
     <motion.button
@@ -82,7 +79,7 @@ function ViewAllButton({ onClick }: { onClick?: () => void }) {
       onHoverEnd={() => setHovered(false)}
       whileTap={{ scale: 0.95 }}
       className="relative inline-flex items-center gap-3 px-8 py-[15px] rounded-full cursor-pointer border-0 overflow-hidden"
-      style={{ border: '1px solid rgba(255,255,255,0.16)', background: 'transparent' }}
+      style={{ background: 'transparent', boxShadow: 'inset 0 0 0 1.5px rgba(0,0,0,0.15)' }}
     >
       {/* lime fill sweep from left */}
       <motion.span
@@ -95,7 +92,7 @@ function ViewAllButton({ onClick }: { onClick?: () => void }) {
       {/* label */}
       <motion.span
         className="relative z-10 font-semibold text-sm tracking-wide"
-        animate={{ color: hovered ? '#0B0B0B' : '#ffffff' }}
+        animate={{ color: hovered ? '#0B0B0B' : idleColor }}
         transition={{ duration: 0.25 }}
       >
         View All Products
@@ -105,7 +102,7 @@ function ViewAllButton({ onClick }: { onClick?: () => void }) {
       <motion.span
         className="relative z-10 flex items-center justify-center w-8 h-8 rounded-full"
         animate={{
-          backgroundColor: hovered ? 'rgba(0,0,0,0.14)' : 'rgba(255,255,255,0.1)',
+          backgroundColor: hovered ? 'rgba(0,0,0,0.14)' : 'rgba(0,0,0,0.08)',
           x: hovered ? 5 : 0,
         }}
         transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
@@ -114,7 +111,7 @@ function ViewAllButton({ onClick }: { onClick?: () => void }) {
           viewBox="0 0 24 24" fill="none" strokeWidth="2.3"
           strokeLinecap="round" strokeLinejoin="round"
           className="w-[15px] h-[15px]"
-          animate={{ stroke: hovered ? '#0B0B0B' : '#ffffff', rotate: hovered ? -45 : 0 }}
+          animate={{ stroke: hovered ? '#0B0B0B' : idleStroke, rotate: hovered ? -45 : 0 }}
           transition={{ duration: 0.3 }}
         >
           <line x1="5" y1="12" x2="19" y2="12" />
@@ -142,37 +139,45 @@ function ProjectCard({ data, onOpen, imageHeight, desktopHeight, colIndex, rowIn
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 56 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: false, amount: 0.15 }}
-      transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={{ y: -6, transition: { duration: 0.3, ease: 'easeOut' } }}
-      className="cursor-pointer"
+      initial={{ opacity: 0, y: 60, scale: 0.97 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: false, amount: 0.12 }}
+      transition={{ duration: 0.75, delay, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{ y: -10, scale: 1.015, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] } }}
+      className="cursor-pointer relative"
       onClick={() => onOpen(data.key)}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
     >
-      {/* gray background tile */}
-      <div
-        className="rounded-[22px] p-[14px]"
-        style={{
-          background: 'var(--elevated)',
-          border: '1px solid rgba(255,255,255,0.06)',
-          transition: 'border-color 0.3s',
-          ...(hovered ? { borderColor: 'rgba(255,255,255,0.12)' } : {}),
+      <CornerMarks hovered={hovered} />
+      {/* card tile */}
+      <motion.div
+        className="rounded-[24px] p-[18px]"
+        style={{ background: '#dcdce8' }}
+        animate={{
+          boxShadow: hovered
+            ? '0 24px 60px rgba(108,43,217,0.18), 0 8px 20px rgba(0,0,0,0.12)'
+            : '0 2px 8px rgba(0,0,0,0.06)',
         }}
+        transition={{ duration: 0.35 }}
       >
         {/* image area */}
         <div
           className="relative overflow-hidden rounded-[12px] project-card-img"
           style={{ '--h-sm': `${imageHeight}px`, '--h-md': `${h}px` } as React.CSSProperties}
         >
-          <Image
-            src={data.image}
-            alt={data.title}
-            fill
-            className="object-cover"
-          />
+          <motion.div
+            className="absolute inset-0"
+            animate={{ scale: hovered ? 1.05 : 1 }}
+            transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <Image
+              src={data.image}
+              alt={data.title}
+              fill
+              className="object-cover"
+            />
+          </motion.div>
 
           {/* subtle dark overlay on hover */}
           <motion.div
@@ -217,9 +222,15 @@ function ProjectCard({ data, onOpen, imageHeight, desktopHeight, colIndex, rowIn
             </motion.div>
           </motion.div>
 
-          {/* lime star accent */}
-          <span className="absolute top-3 left-3 w-[26px] h-[26px] text-lime pointer-events-none">
-            <svg viewBox="0 0 100 100" fill="currentColor" className="w-full h-full">
+          {/* star accent */}
+          <span
+            className="absolute top-3 left-3 w-[32px] h-[32px] flex items-center justify-center rounded-full pointer-events-none"
+            style={{
+              background: 'rgba(255,255,255,0.92)',
+              boxShadow: '0 4px 16px rgba(108,43,217,0.25), 0 2px 6px rgba(0,0,0,0.12)',
+            }}
+          >
+            <svg viewBox="0 0 100 100" fill="#6C2BD9" className="w-[16px] h-[16px]">
               <path d="M50 2 C55 32 68 45 98 50 C68 55 55 68 50 98 C45 68 32 55 2 50 C32 45 45 32 50 2 Z" />
             </svg>
           </span>
@@ -243,15 +254,19 @@ function ProjectCard({ data, onOpen, imageHeight, desktopHeight, colIndex, rowIn
         </div>
 
         {/* text below image, inside tile */}
-        <div className="px-1 pt-[14px] pb-[4px]">
-          <h3 className="font-archivo font-bold text-[20px] mb-[6px] m-0 text-purple-light">
+        <div className="px-1 pt-[16px] pb-[6px]">
+          <motion.h3
+            className="font-archivo font-bold text-[22px] mb-[7px] m-0"
+            animate={{ color: hovered ? '#5b21b6' : '#6C2BD9' }}
+            transition={{ duration: 0.25 }}
+          >
             {data.title}
-          </h3>
-          <p className="m-0 text-sm leading-relaxed text-muted">
+          </motion.h3>
+          <p className="m-0 text-[14px] leading-relaxed" style={{ color: '#6b7280' }}>
             {data.services.slice(0, 3).join(' · ')}
           </p>
         </div>
-      </div>
+      </motion.div>
     </motion.div>
   )
 }

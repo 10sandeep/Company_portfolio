@@ -174,11 +174,12 @@ export default function ContactPage() {
   const handleSubmit = (e: FormEvent) => { e.preventDefault(); setSent(true) }
 
   return (
-    <main style={{ background: 'var(--dark)', minHeight: '100vh' }}>
+    <main style={{ background: 'var(--dark)', minHeight: '100vh', paddingTop: 'var(--banner-h, 0px)' }}>
       {/* ── Sticky nav ── */}
       <nav
-        className="sticky top-0 z-50 flex items-center justify-between px-5 sm:px-8 h-[62px]"
+        className="sticky z-50 flex items-center justify-between px-5 sm:px-8 h-[62px]"
         style={{
+          top: 'var(--banner-h, 0px)',
           background: 'var(--nav-bg)',
           backdropFilter: 'blur(18px)',
           WebkitBackdropFilter: 'blur(18px)',
@@ -199,7 +200,7 @@ export default function ContactPage() {
         <Link
           href="/"
           className="flex items-center gap-2 text-sm font-semibold no-underline px-4 py-[9px] rounded-full transition-colors"
-          style={{ color: 'var(--text-nav)', border: '1px solid var(--border)' }}
+          style={{ color: 'var(--text-nav)', background: 'rgba(255,255,255,0.06)' }}
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"
                strokeLinecap="round" strokeLinejoin="round" className="w-[14px] h-[14px]">
@@ -225,7 +226,7 @@ export default function ContactPage() {
             {/* pill */}
             <span
               className="inline-flex items-center gap-2 text-xs font-bold tracking-[2px] uppercase mb-6 px-4 py-2 rounded-full"
-              style={{ background: 'rgba(108,43,217,0.18)', color: '#b99dff', border: '1px solid rgba(108,43,217,0.3)' }}
+              style={{ background: 'rgba(108,43,217,0.18)', color: '#b99dff' }}
             >
               <span className="w-[7px] h-[7px] rounded-full bg-lime inline-block" />
               Get In Touch
@@ -251,7 +252,7 @@ export default function ContactPage() {
                 <motion.div
                   key={block.label}
                   className="flex gap-4 p-5 rounded-2xl"
-                  style={{ background: 'var(--card)', border: '1px solid var(--border)' }}
+                  style={{ background: 'var(--card)' }}
                   initial={{ opacity: 0, y: 24 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.55, delay: 0.2 + i * 0.08, ease: [0.16, 1, 0.3, 1] }}
@@ -277,7 +278,7 @@ export default function ContactPage() {
           {/* ── Right: form card ── */}
           <motion.div
             className="rounded-[28px] p-[clamp(24px,4vw,44px)]"
-            style={{ background: 'var(--card)', border: '1px solid var(--border)' }}
+            style={{ background: 'var(--card)' }}
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}

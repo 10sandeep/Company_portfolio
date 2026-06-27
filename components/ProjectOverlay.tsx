@@ -44,8 +44,9 @@ export default function ProjectOverlay({ project, onClose }: Props) {
   return (
     <div
       ref={panelRef}
-      className="fixed inset-0 z-[200] overflow-y-auto"
-      style={{ background: 'var(--dark)', willChange: 'transform', scrollBehavior: 'smooth' }}
+      className="fixed left-0 right-0 bottom-0 z-[200] overflow-y-auto"
+      data-lenis-prevent
+      style={{ top: 'var(--banner-h, 0px)', background: 'var(--dark)', willChange: 'transform', scrollBehavior: 'smooth' }}
     >
       {/* ── Sticky top bar ── */}
       <div className="sticky top-0 z-10 flex items-center justify-between px-4 sm:px-7 h-[60px]"
@@ -149,6 +150,102 @@ export default function ProjectOverlay({ project, onClose }: Props) {
           ))}
         </motion.div>
 
+        {/* ── Visit links ── */}
+        {(project.websiteUrl || project.appStoreUrl || project.playStoreUrl) && (
+          <motion.div
+            className="flex flex-wrap items-center gap-3 mb-10 sm:mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.75 }}
+          >
+            <span className="text-[11px] font-bold tracking-[2px] uppercase text-muted mr-1">Visit</span>
+
+            {project.websiteUrl && (
+              <a
+                href={project.websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-[10px] rounded-full font-semibold text-sm no-underline border transition-all duration-200 group"
+                style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.75)' }}
+                onMouseEnter={e => {
+                  const el = e.currentTarget as HTMLElement
+                  el.style.background = project.accent + '22'
+                  el.style.borderColor = project.accent
+                  el.style.color = project.accent
+                }}
+                onMouseLeave={e => {
+                  const el = e.currentTarget as HTMLElement
+                  el.style.background = 'rgba(255,255,255,0.05)'
+                  el.style.borderColor = 'rgba(255,255,255,0.12)'
+                  el.style.color = 'rgba(255,255,255,0.75)'
+                }}
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-[14px] h-[14px] flex-none">
+                  <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                </svg>
+                Visit Website
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="w-[11px] h-[11px] flex-none opacity-50">
+                  <line x1="7" y1="17" x2="17" y2="7"/><polyline points="8 7 17 7 17 16"/>
+                </svg>
+              </a>
+            )}
+
+            {project.appStoreUrl && (
+              <a
+                href={project.appStoreUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-[10px] rounded-full font-semibold text-sm no-underline border transition-all duration-200"
+                style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.75)' }}
+                onMouseEnter={e => {
+                  const el = e.currentTarget as HTMLElement
+                  el.style.background = 'rgba(255,255,255,0.1)'
+                  el.style.borderColor = 'rgba(255,255,255,0.3)'
+                  el.style.color = '#ffffff'
+                }}
+                onMouseLeave={e => {
+                  const el = e.currentTarget as HTMLElement
+                  el.style.background = 'rgba(255,255,255,0.05)'
+                  el.style.borderColor = 'rgba(255,255,255,0.12)'
+                  el.style.color = 'rgba(255,255,255,0.75)'
+                }}
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" className="w-[14px] h-[14px] flex-none">
+                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                </svg>
+                App Store
+              </a>
+            )}
+
+            {project.playStoreUrl && (
+              <a
+                href={project.playStoreUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-[10px] rounded-full font-semibold text-sm no-underline border transition-all duration-200"
+                style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.75)' }}
+                onMouseEnter={e => {
+                  const el = e.currentTarget as HTMLElement
+                  el.style.background = 'rgba(255,255,255,0.1)'
+                  el.style.borderColor = 'rgba(255,255,255,0.3)'
+                  el.style.color = '#ffffff'
+                }}
+                onMouseLeave={e => {
+                  const el = e.currentTarget as HTMLElement
+                  el.style.background = 'rgba(255,255,255,0.05)'
+                  el.style.borderColor = 'rgba(255,255,255,0.12)'
+                  el.style.color = 'rgba(255,255,255,0.75)'
+                }}
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" className="w-[14px] h-[14px] flex-none">
+                  <path d="M3.18 23.76a1.05 1.05 0 0 0 1.06-.08l11.62-6.54-2.5-2.5zm14.84-10.71L15.35 10.4 12.68 13l2.67 2.67 3.68-2.07a1.1 1.1 0 0 0 .56-.96 1.07 1.07 0 0 0-.57-.59zM3.18.24A1.07 1.07 0 0 0 2.5 1.22v21.56a1.07 1.07 0 0 0 .68.98l.08.04 12.09-12.06v-.28zm8.83 11.44L3.26.69l-.08.04A1.07 1.07 0 0 0 2.5 1.7"/>
+                </svg>
+                Play Store
+              </a>
+            )}
+          </motion.div>
+        )}
+
         {/* Two-column body */}
         <div className="grid gap-8 sm:gap-10 md:gap-16 grid-cols-1 md:[grid-template-columns:1.1fr_0.9fr]">
 
@@ -192,7 +289,7 @@ export default function ProjectOverlay({ project, onClose }: Props) {
             <div>
               <h3 className="font-archivo font-bold text-[18px] mb-4 text-white">Results</h3>
               <div className="grid grid-cols-3 gap-3 sm:gap-4 rounded-[22px] p-5 sm:p-7"
-                   style={{ background: 'var(--elevated)', border: '1px solid var(--border)' }}>
+                   style={{ background: 'var(--elevated)' }}>
                 {project.results.map((r, i) => (
                   <motion.div
                     key={r.label}
@@ -211,8 +308,7 @@ export default function ProjectOverlay({ project, onClose }: Props) {
 
             {/* accent bar */}
             <div className="rounded-[18px] p-6"
-                 style={{ background: project.accent === '#0B0B0B' ? '#111' : project.accent + '22',
-                          border: `1px solid ${project.accent === '#0B0B0B' ? 'rgba(255,255,255,0.08)' : project.accent + '55'}` }}>
+                 style={{ background: project.accent === '#0B0B0B' ? '#111' : project.accent + '22' }}>
               <p className="text-sm leading-[1.65] m-0"
                  style={{ color: project.accent === '#0B0B0B' ? '#9a9a9a' : 'rgba(255,255,255,0.85)' }}>
                 &ldquo;{project.tagline}&rdquo;

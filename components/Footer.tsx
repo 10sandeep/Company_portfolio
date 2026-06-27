@@ -42,7 +42,7 @@ function SocialBtn({ href, label, children }: { href: string; label: string; chi
       target="_blank"
       rel="noopener noreferrer"
       className="w-10 h-10 rounded-full flex items-center justify-center flex-none text-white/60"
-      style={{ border: '1px solid rgba(255,255,255,0.14)' }}
+      style={{ background: 'rgba(255,255,255,0.06)' }}
       whileHover={{ borderColor: 'rgba(197,242,60,0.6)', color: '#C5F23C', scale: 1.12 }}
       whileTap={{ scale: 0.92 }}
       transition={{ duration: 0.18 }}
@@ -183,14 +183,14 @@ export default function Footer({ onOpenAbout, onOpenProducts, onOpenFAQ, noAnima
       ref={footerRef}
       id="footer"
       className="mx-2 sm:mx-[14px] rounded-[28px] sm:rounded-[40px] text-white overflow-hidden"
-      style={{ background: 'var(--panel)', border: '1px solid rgba(255,255,255,0.08)' }}
+      style={{ background: 'var(--panel)' }}
     >
       <div className="max-w-[1120px] mx-auto px-[clamp(20px,5vw,70px)]">
 
         {/* ── Main grid ── */}
         <div
           ref={gridRef}
-          className="grid gap-8 sm:gap-12 md:gap-14 pt-10 sm:pt-14 md:pt-20 grid-cols-1 md:grid-cols-[1.7fr_1fr_1fr]"
+          className="grid gap-10 sm:gap-12 md:gap-14 pt-6 sm:pt-8 md:pt-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.7fr_1fr_1fr]"
         >
 
           {/* ── Left: brand + tagline + email ── */}

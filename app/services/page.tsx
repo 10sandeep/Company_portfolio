@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import Footer from '@/components/Footer'
+import { CornerMarks } from '@/components/ui/corner-marks'
 
 /* ─── Anchor nav ─── */
 const ANCHORS = [
@@ -150,21 +151,43 @@ const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
 
 function fu(delay = 0) {
   return {
-    initial:     { opacity: 0, y: 28 },
+    initial:     { opacity: 0, y: 36 },
     whileInView: { opacity: 1, y: 0  },
     viewport:    { once: true, amount: 0.12 },
-    transition:  { duration: 0.65, delay, ease: EASE },
+    transition:  { duration: 0.7, delay, ease: EASE },
+  }
+}
+
+function fl(delay = 0) {
+  return {
+    initial:     { opacity: 0, x: -32 },
+    whileInView: { opacity: 1, x: 0   },
+    viewport:    { once: true, amount: 0.2 },
+    transition:  { duration: 0.6, delay, ease: EASE },
   }
 }
 
 /* ─── Sub-components ─── */
 function SectionTag({ num, label }: { num: string; label: string }) {
   return (
-    <div className="flex items-center gap-3 mb-5">
+    <motion.div
+      className="flex items-center gap-3 mb-5"
+      initial={{ opacity: 0, x: -24 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.55, ease: EASE }}
+    >
       <span className="text-xs font-black tracking-[3px] uppercase" style={{ color: '#b99dff' }}>{num}</span>
-      <span className="w-8 h-px flex-none" style={{ background: '#b99dff' }} />
+      <motion.span
+        className="h-px flex-none"
+        style={{ background: '#b99dff' }}
+        initial={{ width: 0 }}
+        whileInView={{ width: 32 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.15, ease: EASE }}
+      />
       <span className="text-xs font-black tracking-[2.5px] uppercase" style={{ color: '#b99dff' }}>{label}</span>
-    </div>
+    </motion.div>
   )
 }
 
@@ -173,6 +196,8 @@ function ServiceCard({ card, accent, index }: { card: typeof WEB_CARDS[0]; accen
   const isLime = accent === '#C5F23C'
 
   return (
+    <div className="relative">
+      <CornerMarks hovered={hovered} />
     <motion.div
       {...fu(index * 0.07)}
       onHoverStart={() => setHovered(true)}
@@ -180,9 +205,7 @@ function ServiceCard({ card, accent, index }: { card: typeof WEB_CARDS[0]; accen
       className="relative rounded-2xl overflow-hidden flex flex-col cursor-default"
       animate={{
         y: hovered ? -6 : 0,
-        boxShadow: hovered
-          ? `0 24px 56px rgba(0,0,0,0.45), 0 0 0 1px ${accent}55`
-          : '0 0 0 1px rgba(255,255,255,0.07)',
+        boxShadow: hovered ? `0 24px 56px rgba(0,0,0,0.45)` : 'none',
       }}
       transition={{ duration: 0.35, ease: EASE }}
       style={{ background: 'var(--card)' }}
@@ -310,12 +333,13 @@ function ServiceCard({ card, accent, index }: { card: typeof WEB_CARDS[0]; accen
         </ul>
       </div>
     </motion.div>
+    </div>
   )
 }
 
 function CardGrid({ cards, accent = '#6C2BD9' }: { cards: typeof WEB_CARDS; accent?: string }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-10">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-7 sm:gap-8 mt-10">
       {cards.map((card, i) => (
         <ServiceCard key={card.num} card={card} accent={accent} index={i} />
       ))}
@@ -325,39 +349,42 @@ function CardGrid({ cards, accent = '#6C2BD9' }: { cards: typeof WEB_CARDS; acce
 
 function StatBar({ stats, accent = '#6C2BD9' }: { stats: { value: string; label: string }[]; accent?: string }) {
   return (
-    <div className="grid grid-cols-3 gap-4 mt-8 mb-2">
+    <div className="grid grid-cols-3 gap-4 sm:gap-6 mt-8 mb-2">
       {stats.map((s, i) => {
         const [hovered, setHovered] = useState(false)
         return (
+          <div key={s.label} className="relative">
+            <CornerMarks hovered={hovered} />
           <motion.div
-            key={s.label}
-            {...fu(i * 0.08)}
+            {...fu(i * 0.09)}
             onHoverStart={() => setHovered(true)}
             onHoverEnd={() => setHovered(false)}
-            className="relative overflow-hidden p-5 sm:p-6 rounded-2xl text-center cursor-default"
+            className="relative rounded-2xl p-6 sm:p-8 cursor-default"
             animate={{
-              boxShadow: hovered ? `0 12px 32px rgba(0,0,0,0.3), 0 0 0 1px ${accent}55` : `0 0 0 1px ${accent}30`,
-              y: hovered ? -4 : 0,
+              y: hovered ? -5 : 0,
+              boxShadow: hovered ? `0 20px 48px rgba(0,0,0,0.4)` : 'none',
             }}
             transition={{ duration: 0.3, ease: EASE }}
-            style={{ background: `${accent}12` }}
+            style={{
+              background: 'var(--card)',
+            }}
           >
-            <motion.div
-              className="absolute inset-0 pointer-events-none"
-              animate={{ opacity: hovered ? 1 : 0 }}
-              transition={{ duration: 0.3 }}
-              style={{ background: `radial-gradient(ellipse at center, ${accent}20 0%, transparent 70%)` }}
-            />
             <motion.p
-              className="font-archivo font-black m-0 mb-1 relative z-[1]"
-              style={{ fontSize: 'clamp(18px, 2.2vw, 30px)' }}
+              className="font-archivo font-black m-0 mb-2"
+              style={{ fontSize: 'clamp(22px, 2.8vw, 38px)', color: '#ffffff' }}
               animate={{ color: hovered ? accent : '#ffffff' }}
               transition={{ duration: 0.25 }}
             >
               {s.value}
             </motion.p>
-            <p className="text-xs m-0 font-semibold relative z-[1]" style={{ color: '#b99dff' }}>{s.label}</p>
+            <p
+              className="text-xs m-0 font-mono font-semibold tracking-wide uppercase"
+              style={{ color: '#b99dff' }}
+            >
+              {s.label}
+            </p>
           </motion.div>
+          </div>
         )
       })}
     </div>
@@ -367,6 +394,8 @@ function StatBar({ stats, accent = '#6C2BD9' }: { stats: { value: string; label:
 function FeatureCard({ title, desc, accent, index }: { title: string; desc: string; accent: string; index: number }) {
   const [hovered, setHovered] = useState(false)
   return (
+    <div className="relative">
+      <CornerMarks hovered={hovered} />
     <motion.div
       {...fu(index * 0.06)}
       onHoverStart={() => setHovered(true)}
@@ -374,9 +403,7 @@ function FeatureCard({ title, desc, accent, index }: { title: string; desc: stri
       className="relative overflow-hidden p-5 sm:p-6 rounded-2xl flex flex-col gap-2 cursor-default"
       animate={{
         y: hovered ? -5 : 0,
-        boxShadow: hovered
-          ? `0 20px 48px rgba(0,0,0,0.4), 0 0 0 1px ${accent}55`
-          : '0 0 0 1px rgba(255,255,255,0.07)',
+        boxShadow: hovered ? `0 20px 48px rgba(0,0,0,0.4)` : 'none',
       }}
       transition={{ duration: 0.3, ease: EASE }}
       style={{ background: 'var(--card)' }}
@@ -403,6 +430,7 @@ function FeatureCard({ title, desc, accent, index }: { title: string; desc: stri
       </motion.h3>
       <p className="text-sm leading-[1.65] m-0 relative z-[1]" style={{ color: 'var(--text-body)' }}>{desc}</p>
     </motion.div>
+    </div>
   )
 }
 
@@ -410,6 +438,8 @@ function ProcessCard({ step, index }: { step: typeof PROCESS_STEPS[0]; index: nu
   const [hovered, setHovered] = useState(false)
   const accent = '#6C2BD9'
   return (
+    <div className="relative">
+      <CornerMarks hovered={hovered} />
     <motion.div
       {...fu(index * 0.07)}
       onHoverStart={() => setHovered(true)}
@@ -417,9 +447,7 @@ function ProcessCard({ step, index }: { step: typeof PROCESS_STEPS[0]; index: nu
       className="relative overflow-hidden p-6 sm:p-7 rounded-2xl flex flex-col gap-3 cursor-default"
       animate={{
         y: hovered ? -6 : 0,
-        boxShadow: hovered
-          ? `0 24px 56px rgba(0,0,0,0.45), 0 0 0 1px ${accent}55`
-          : '0 0 0 1px rgba(255,255,255,0.07)',
+        boxShadow: hovered ? `0 24px 56px rgba(0,0,0,0.45)` : 'none',
       }}
       transition={{ duration: 0.35, ease: EASE }}
       style={{ background: 'var(--card)' }}
@@ -474,27 +502,41 @@ function ProcessCard({ step, index }: { step: typeof PROCESS_STEPS[0]; index: nu
         <p className="text-sm leading-[1.65] m-0" style={{ color: 'var(--text-body)' }}>{step.desc}</p>
       </div>
     </motion.div>
+    </div>
   )
 }
 
 function Divider() {
-  return <div className="h-px mx-5 sm:mx-7" style={{ background: 'var(--border)' }} />
+  return (
+    <motion.div
+      className="h-px mx-5 sm:mx-7 origin-left"
+      style={{ background: 'var(--border)' }}
+      initial={{ scaleX: 0 }}
+      whileInView={{ scaleX: 1 }}
+      viewport={{ once: true, amount: 0.5 }}
+      transition={{ duration: 0.9, ease: EASE }}
+    />
+  )
 }
 
 /* ─── Page ─── */
 export default function ServicesPage() {
   return (
-    <main style={{ background: 'var(--dark)', minHeight: '100vh' }}>
+    <main style={{ background: 'var(--dark)', minHeight: '100vh', paddingTop: 'var(--banner-h, 0px)' }}>
 
       {/* ── Sticky nav ── */}
-      <nav
-        className="sticky top-0 z-50 flex items-center justify-between px-5 sm:px-8 h-[62px]"
+      <motion.nav
+        className="sticky z-50 flex items-center justify-between px-5 sm:px-8 h-[62px]"
         style={{
+          top: 'var(--banner-h, 0px)',
           background: 'var(--nav-bg)',
           backdropFilter: 'blur(18px)',
           WebkitBackdropFilter: 'blur(18px)',
           borderBottom: '1px solid var(--border)',
         }}
+        initial={{ y: -62, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: EASE }}
       >
         <Link href="/" className="flex items-center gap-[8px] no-underline">
           <span className="w-[22px] h-[22px] text-lime block">
@@ -510,7 +552,7 @@ export default function ServicesPage() {
         <Link
           href="/"
           className="flex items-center gap-2 text-sm font-semibold no-underline px-4 py-[9px] rounded-full"
-          style={{ color: 'var(--text-nav)', border: '1px solid var(--border)' }}
+          style={{ color: 'var(--text-nav)', background: 'rgba(255,255,255,0.06)' }}
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"
                strokeLinecap="round" strokeLinejoin="round" className="w-[14px] h-[14px]">
@@ -519,13 +561,13 @@ export default function ServicesPage() {
           </svg>
           Back to Home
         </Link>
-      </nav>
+      </motion.nav>
 
       {/* ── Hero ── */}
       <div className="max-w-[1180px] mx-auto px-5 sm:px-7 pt-14 sm:pt-20 pb-10 sm:pb-14">
         <motion.span
           className="inline-flex items-center gap-2 text-xs font-bold tracking-[2px] uppercase mb-6 px-4 py-2 rounded-full"
-          style={{ background: 'rgba(108,43,217,0.18)', color: '#b99dff', border: '1px solid rgba(108,43,217,0.3)' }}
+          style={{ background: 'rgba(108,43,217,0.18)', color: '#b99dff' }}
           initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
@@ -559,22 +601,21 @@ export default function ServicesPage() {
         </motion.p>
 
         {/* Anchor nav pills */}
-        <motion.div
-          className="flex flex-wrap gap-2"
-          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-        >
-          {ANCHORS.map(link => (
-            <a
+        <div className="flex flex-wrap gap-2">
+          {ANCHORS.map((link, i) => (
+            <motion.a
               key={link.href}
               href={link.href}
               className="text-[11px] font-bold tracking-[1.5px] uppercase px-4 py-[9px] rounded-full no-underline transition-colors hover:border-purple-500"
-              style={{ background: 'var(--card)', border: '1px solid var(--border)', color: 'var(--muted)' }}
+              style={{ background: 'var(--card)', color: 'var(--muted)' }}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, delay: 0.38 + i * 0.06, ease: EASE }}
             >
               {link.label}
-            </a>
+            </motion.a>
           ))}
-        </motion.div>
+        </div>
       </div>
 
       {/* ── Hero stats ── */}
@@ -583,9 +624,11 @@ export default function ServicesPage() {
           {HERO_STATS.map((s, i) => (
             <motion.div
               key={s.label}
-              {...fu(i * 0.07)}
+              initial={{ opacity: 0, y: 24, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.55, delay: 0.35 + i * 0.08, ease: EASE }}
               className="p-5 sm:p-6 rounded-2xl text-center"
-              style={{ background: 'var(--card)', border: '1px solid var(--border)' }}
+              style={{ background: 'var(--card)' }}
             >
               <p
                 className="font-archivo font-black m-0 mb-1"
@@ -606,10 +649,12 @@ export default function ServicesPage() {
       {/* ── 01 · Web Development ── */}
       <section id="web" className="max-w-[1180px] mx-auto px-5 sm:px-7 py-14 sm:py-20" style={{ scrollMarginTop: '70px' }}>
         <div className="relative">
-          <span
+          <motion.span
             className="absolute -top-4 left-0 font-archivo font-black select-none pointer-events-none leading-none"
-            style={{ fontSize: 'clamp(64px, 14vw, 160px)', color: 'white', opacity: 0.025, overflow: 'hidden' }}
-          >01</span>
+            style={{ fontSize: 'clamp(64px, 14vw, 160px)', color: 'white', overflow: 'hidden' }}
+            initial={{ opacity: 0 }} whileInView={{ opacity: 0.025 }}
+            viewport={{ once: true }} transition={{ duration: 1 }}
+          >01</motion.span>
 
           <SectionTag num="01" label="Web Development" />
 
@@ -641,10 +686,12 @@ export default function ServicesPage() {
       {/* ── 02 · Mobile Apps ── */}
       <section id="mobile" className="max-w-[1180px] mx-auto px-5 sm:px-7 py-14 sm:py-20" style={{ scrollMarginTop: '70px' }}>
         <div className="relative">
-          <span
+          <motion.span
             className="absolute -top-4 left-0 font-archivo font-black select-none pointer-events-none leading-none"
-            style={{ fontSize: 'clamp(64px, 14vw, 160px)', color: 'white', opacity: 0.025, overflow: 'hidden' }}
-          >02</span>
+            style={{ fontSize: 'clamp(64px, 14vw, 160px)', color: 'white', overflow: 'hidden' }}
+            initial={{ opacity: 0 }} whileInView={{ opacity: 0.025 }}
+            viewport={{ once: true }} transition={{ duration: 1 }}
+          >02</motion.span>
 
           <SectionTag num="02" label="Mobile Applications" />
 
@@ -667,10 +714,12 @@ export default function ServicesPage() {
       {/* ── 03 · UI/UX Design ── */}
       <section id="design" className="max-w-[1180px] mx-auto px-5 sm:px-7 py-14 sm:py-20" style={{ scrollMarginTop: '70px' }}>
         <div className="relative">
-          <span
+          <motion.span
             className="absolute -top-4 left-0 font-archivo font-black select-none pointer-events-none leading-none"
-            style={{ fontSize: 'clamp(64px, 14vw, 160px)', color: 'white', opacity: 0.025, overflow: 'hidden' }}
-          >03</span>
+            style={{ fontSize: 'clamp(64px, 14vw, 160px)', color: 'white', overflow: 'hidden' }}
+            initial={{ opacity: 0 }} whileInView={{ opacity: 0.025 }}
+            viewport={{ once: true }} transition={{ duration: 1 }}
+          >03</motion.span>
 
           <SectionTag num="03" label="UI/UX Design" />
 
@@ -701,10 +750,12 @@ export default function ServicesPage() {
       {/* ── 04 · Backend & Cloud ── */}
       <section id="backend" className="max-w-[1180px] mx-auto px-5 sm:px-7 py-14 sm:py-20" style={{ scrollMarginTop: '70px' }}>
         <div className="relative">
-          <span
+          <motion.span
             className="absolute -top-4 left-0 font-archivo font-black select-none pointer-events-none leading-none"
-            style={{ fontSize: 'clamp(64px, 14vw, 160px)', color: 'white', opacity: 0.025, overflow: 'hidden' }}
-          >04</span>
+            style={{ fontSize: 'clamp(64px, 14vw, 160px)', color: 'white', overflow: 'hidden' }}
+            initial={{ opacity: 0 }} whileInView={{ opacity: 0.025 }}
+            viewport={{ once: true }} transition={{ duration: 1 }}
+          >04</motion.span>
 
           <SectionTag num="04" label="Backend & Cloud" />
 
@@ -719,7 +770,7 @@ export default function ServicesPage() {
 
           <StatBar stats={BACKEND_STATS} accent="#19b3c6" />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7 mt-8">
             {BACKEND_FEATURES.map((f, i) => (
               <FeatureCard key={f.title} title={f.title} desc={f.desc} accent="#19b3c6" index={i} />
             ))}
@@ -732,10 +783,12 @@ export default function ServicesPage() {
       {/* ── 05 · AI & Automation ── */}
       <section id="ai" className="max-w-[1180px] mx-auto px-5 sm:px-7 py-14 sm:py-20" style={{ scrollMarginTop: '70px' }}>
         <div className="relative">
-          <span
+          <motion.span
             className="absolute -top-4 left-0 font-archivo font-black select-none pointer-events-none leading-none"
-            style={{ fontSize: 'clamp(64px, 14vw, 160px)', color: 'white', opacity: 0.025, overflow: 'hidden' }}
-          >05</span>
+            style={{ fontSize: 'clamp(64px, 14vw, 160px)', color: 'white', overflow: 'hidden' }}
+            initial={{ opacity: 0 }} whileInView={{ opacity: 0.025 }}
+            viewport={{ once: true }} transition={{ duration: 1 }}
+          >05</motion.span>
 
           <SectionTag num="05" label="AI & Automation" />
 
@@ -767,10 +820,12 @@ export default function ServicesPage() {
       {/* ── 06 · How We Work ── */}
       <section id="process" className="max-w-[1180px] mx-auto px-5 sm:px-7 py-14 sm:py-20" style={{ scrollMarginTop: '70px' }}>
         <div className="relative">
-          <span
+          <motion.span
             className="absolute -top-4 left-0 font-archivo font-black select-none pointer-events-none leading-none"
-            style={{ fontSize: 'clamp(64px, 14vw, 160px)', color: 'white', opacity: 0.025, overflow: 'hidden' }}
-          >06</span>
+            style={{ fontSize: 'clamp(64px, 14vw, 160px)', color: 'white', overflow: 'hidden' }}
+            initial={{ opacity: 0 }} whileInView={{ opacity: 0.025 }}
+            viewport={{ once: true }} transition={{ duration: 1 }}
+          >06</motion.span>
 
           <SectionTag num="06" label="How We Work" />
 
@@ -783,7 +838,7 @@ export default function ServicesPage() {
             <span style={{ color: '#C5F23C' }}>actually predict.</span>
           </motion.h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
             {PROCESS_STEPS.map((step, i) => (
               <ProcessCard key={step.num} step={step} index={i} />
             ))}
@@ -800,7 +855,6 @@ export default function ServicesPage() {
                      px-8 sm:px-14 py-12 sm:py-16"
           style={{
             background: 'linear-gradient(120deg, #0e0e1c 0%, #131326 55%, #1a1035 100%)',
-            border: '1px solid rgba(255,255,255,0.08)',
           }}
         >
           {/* glow */}
@@ -808,7 +862,7 @@ export default function ServicesPage() {
             className="absolute -top-16 -right-16 w-[300px] h-[300px] rounded-full pointer-events-none"
             style={{ background: 'radial-gradient(circle, rgba(108,43,217,0.3) 0%, transparent 70%)' }}
           />
-          <div className="relative z-[1]">
+          <motion.div className="relative z-[1]" {...fl()}>
             <h2
               className="font-archivo font-black text-white m-0 mb-3 leading-[1.08]"
               style={{ fontSize: 'clamp(24px, 3.2vw, 44px)' }}
@@ -818,11 +872,12 @@ export default function ServicesPage() {
             <p className="text-sm m-0" style={{ color: 'rgba(255,255,255,0.45)' }}>
               Tell us what you&apos;re building — we&apos;ll tell you exactly how we&apos;d approach it.
             </p>
-          </div>
+          </motion.div>
+          <motion.div {...fu(0.15)} className="relative z-[1] flex-shrink-0">
           <Link
             href="/contact"
-            className="relative z-[1] inline-flex items-center gap-2 px-7 py-[15px]
-                       rounded-full font-semibold text-sm no-underline flex-shrink-0 transition-opacity hover:opacity-90"
+            className="inline-flex items-center gap-2 px-7 py-[15px]
+                       rounded-full font-semibold text-sm no-underline transition-opacity hover:opacity-90"
             style={{ background: '#C5F23C', color: '#0b0b0b' }}
           >
             Start a project
@@ -832,6 +887,7 @@ export default function ServicesPage() {
               <polyline points="13 6 19 12 13 18"/>
             </svg>
           </Link>
+          </motion.div>
         </motion.div>
       </div>
 

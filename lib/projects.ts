@@ -95,6 +95,7 @@ export const PROJECTS: Record<string, Project> = {
       { value: '98%',  label: 'On-time delivery tracking' },
     ],
     image: '/images/zipto.png',
+    websiteUrl: 'https://zipto.in',
   },
   customer_app: {
     key: 'customer_app',
@@ -114,6 +115,8 @@ export const PROJECTS: Record<string, Project> = {
       { value: '+65%', label: 'Day-7 retention' },
     ],
     image: '/images/customer_app.png',
+    appStoreUrl: '#',
+    playStoreUrl: '#',
   },
   rider_app: {
     key: 'rider_app',
@@ -133,6 +136,8 @@ export const PROJECTS: Record<string, Project> = {
       { value: '–30%', label: 'Wrong delivery rate' },
     ],
     image: '/images/rider_app.png',
+    appStoreUrl: '#',
+    playStoreUrl: '#',
   },
   eazydrivez: {
     key: 'eazydrivez',
@@ -152,6 +157,7 @@ export const PROJECTS: Record<string, Project> = {
       { value: '80+',  label: 'Vehicles listed' },
     ],
     image: '/images/eazydrivez.png',
+    websiteUrl: 'https://eazydrivez.com/',
   },
   sjdecors: {
     key: 'sjdecors',
@@ -171,5 +177,6 @@ export const PROJECTS: Record<string, Project> = {
       { value: '15+', label: 'Projects showcased' },
     ],
     image: '/images/sjdecors.png',
+    websiteUrl: 'https://www.sjdecors.in/',
   },
 }

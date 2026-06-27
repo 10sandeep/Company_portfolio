@@ -1,19 +1,105 @@
 'use client'
 import { useState } from 'react'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import ExpertiseOverlay, { type ExpertiseKey } from './ExpertiseOverlay'
+import { CornerMarks } from '@/components/ui/corner-marks'
+import { NumberTicker } from '@/components/ui/number-ticker'
 
-const ease = [0.16, 1, 0.3, 1] as const
+const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
 
-function cardProps(i: number) {
-  return {
-    initial:     { opacity: 0, y: 52, scale: 0.96 },
-    whileInView: { opacity: 1, y: 0,  scale: 1 },
-    viewport:    { once: false, amount: 0.15 } as const,
-    transition:  { duration: 0.65, delay: i * 0.13, ease },
-    whileHover:  { y: -8, transition: { duration: 0.3, ease: 'easeOut' as const } },
-  }
+type CardData = {
+  num: string
+  title: string
+  desc: string
+  tags: string[]
+  accent: string
+  accentDark?: boolean
+  expertiseKey?: ExpertiseKey
+  href?: string
+  icon: React.ReactNode
 }
+
+const CARDS: CardData[] = [
+  {
+    num: '01',
+    title: 'App Development',
+    desc: 'High-performance native and cross-platform mobile apps for iOS & Android that users love using every day.',
+    tags: ['React Native', 'Flutter', 'iOS & Android'],
+    accent: '#6C2BD9',
+    expertiseKey: 'app',
+    icon: (
+      <svg viewBox="0 0 48 48" fill="none" className="w-9 h-9">
+        <rect x="10" y="4" width="18" height="32" rx="4" fill="rgba(108,43,217,0.3)" stroke="rgba(108,43,217,0.8)" strokeWidth="1.5"/>
+        <rect x="14" y="10" width="10" height="16" rx="2" fill="rgba(108,43,217,0.5)"/>
+        <circle cx="19" cy="33" r="1.5" fill="rgba(108,43,217,0.9)"/>
+        <rect x="30" y="12" width="14" height="24" rx="4" fill="rgba(108,43,217,0.2)" stroke="rgba(108,43,217,0.6)" strokeWidth="1.5"/>
+        <rect x="33" y="17" width="8" height="14" rx="2" fill="rgba(108,43,217,0.4)"/>
+      </svg>
+    ),
+  },
+  {
+    num: '02',
+    title: 'Web Development',
+    desc: 'Scalable, fast, and responsive websites and web apps built end-to-end with the best modern tech stacks.',
+    tags: ['Next.js', 'React', 'TypeScript'],
+    accent: '#C5F23C',
+    accentDark: true,
+    expertiseKey: 'web',
+    icon: (
+      <svg viewBox="0 0 48 48" fill="none" className="w-9 h-9">
+        <rect x="4" y="8" width="40" height="28" rx="5" fill="rgba(197,242,60,0.15)" stroke="rgba(197,242,60,0.6)" strokeWidth="1.5"/>
+        <rect x="4" y="8" width="40" height="10" rx="5" fill="rgba(197,242,60,0.2)"/>
+        <circle cx="11" cy="13" r="2" fill="rgba(197,242,60,0.6)"/>
+        <circle cx="17" cy="13" r="2" fill="rgba(197,242,60,0.4)"/>
+        <rect x="10" y="24" width="14" height="3" rx="1.5" fill="rgba(197,242,60,0.5)"/>
+        <rect x="10" y="30" width="22" height="2" rx="1" fill="rgba(197,242,60,0.3)"/>
+        <rect x="16" y="36" width="16" height="4" rx="2" fill="rgba(197,242,60,0.2)" stroke="rgba(197,242,60,0.4)" strokeWidth="1"/>
+      </svg>
+    ),
+  },
+  {
+    num: '03',
+    title: 'UI/UX Design',
+    desc: 'Intuitive interfaces and seamless user experiences — from wireframes to pixel-perfect production handoff.',
+    tags: ['Figma', 'Prototyping', 'Design Systems'],
+    accent: '#19b3c6',
+    expertiseKey: 'uiux',
+    icon: (
+      <svg viewBox="0 0 48 48" fill="none" className="w-9 h-9">
+        <rect x="6" y="6" width="36" height="36" rx="8" fill="rgba(25,179,198,0.12)" stroke="rgba(25,179,198,0.5)" strokeWidth="1.5"/>
+        <rect x="12" y="12" width="10" height="10" rx="3" fill="rgba(25,179,198,0.4)"/>
+        <rect x="26" y="12" width="10" height="4" rx="2" fill="rgba(25,179,198,0.3)"/>
+        <rect x="26" y="19" width="7" height="3" rx="1.5" fill="rgba(25,179,198,0.2)"/>
+        <rect x="12" y="28" width="24" height="3" rx="1.5" fill="rgba(25,179,198,0.35)"/>
+        <rect x="12" y="34" width="18" height="3" rx="1.5" fill="rgba(25,179,198,0.2)"/>
+        <circle cx="34" cy="34" r="5" fill="rgba(25,179,198,0.6)" stroke="rgba(25,179,198,0.9)" strokeWidth="1"/>
+      </svg>
+    ),
+  },
+  {
+    num: '04',
+    title: 'AI & Automation',
+    desc: 'Smart automation, AI integrations, and ML-powered features that give your product an intelligent edge.',
+    tags: ['ChatGPT API', 'ML Models', 'Automation'],
+    accent: '#a855f7',
+    href: '/services#ai',
+    icon: (
+      <svg viewBox="0 0 48 48" fill="none" className="w-9 h-9">
+        <circle cx="24" cy="24" r="8" fill="rgba(168,85,247,0.2)" stroke="rgba(168,85,247,0.7)" strokeWidth="1.5"/>
+        <circle cx="24" cy="24" r="3" fill="rgba(168,85,247,0.8)"/>
+        <circle cx="10" cy="14" r="3.5" fill="rgba(168,85,247,0.3)" stroke="rgba(168,85,247,0.6)" strokeWidth="1"/>
+        <circle cx="38" cy="14" r="3.5" fill="rgba(168,85,247,0.3)" stroke="rgba(168,85,247,0.6)" strokeWidth="1"/>
+        <circle cx="10" cy="34" r="3.5" fill="rgba(168,85,247,0.3)" stroke="rgba(168,85,247,0.6)" strokeWidth="1"/>
+        <circle cx="38" cy="34" r="3.5" fill="rgba(168,85,247,0.3)" stroke="rgba(168,85,247,0.6)" strokeWidth="1"/>
+        <line x1="13" y1="16" x2="18" y2="19" stroke="rgba(168,85,247,0.4)" strokeWidth="1"/>
+        <line x1="35" y1="16" x2="30" y2="19" stroke="rgba(168,85,247,0.4)" strokeWidth="1"/>
+        <line x1="13" y1="32" x2="18" y2="29" stroke="rgba(168,85,247,0.4)" strokeWidth="1"/>
+        <line x1="35" y1="32" x2="30" y2="29" stroke="rgba(168,85,247,0.4)" strokeWidth="1"/>
+      </svg>
+    ),
+  },
+]
 
 export default function Expertise() {
   const [openKey, setOpenKey] = useState<ExpertiseKey | null>(null)
@@ -25,249 +111,186 @@ export default function Expertise() {
         className="mx-2 sm:mx-[14px] rounded-[28px] sm:rounded-[40px] overflow-hidden"
         style={{
           background: 'var(--panel)',
-          border: '1px solid var(--border)',
           padding: 'clamp(32px,5vw,56px) clamp(18px,4vw,56px)',
           scrollMarginTop: '80px',
         }}
       >
         <div className="max-w-[1120px] mx-auto">
 
+          {/* section header */}
           <motion.div
-            className="flex justify-between items-start md:items-end gap-4 flex-wrap"
+            className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 sm:gap-8 mb-10 sm:mb-12"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false, amount: 0.3 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.6, ease: EASE }}
           >
-            <h2 className="font-archivo font-bold m-0 tracking-tight"
-                style={{ fontSize: 'clamp(28px,3.6vw,42px)' }}>Our Expertise</h2>
-            <p className="max-w-[300px] text-left md:text-right text-sm text-muted m-0 leading-relaxed">
-              Transform ideas into reality by combining creativity, strategy, and expertise.
+            <div>
+              <p className="text-[11px] font-black tracking-[3px] uppercase mb-3" style={{ color: 'var(--purple-light)' }}>
+                What We Do
+              </p>
+              <h2
+                className="font-archivo font-black m-0 tracking-tight text-white leading-[1.05]"
+                style={{ fontSize: 'clamp(26px,3.6vw,42px)' }}
+              >
+                Our Expertise
+              </h2>
+            </div>
+            <p className="max-w-[320px] text-sm text-muted m-0 leading-relaxed sm:text-right">
+              We turn ideas into reality by combining creativity, strategy, and technical excellence.
             </p>
           </motion.div>
 
+          {/* divider */}
           <motion.div
-            className="h-px bg-white/[0.08] my-7"
+            className="h-px bg-white/[0.08] mb-8"
             initial={{ scaleX: 0, originX: 0 }}
             whileInView={{ scaleX: 1 }}
             viewport={{ once: false, amount: 1 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.7, ease: EASE }}
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-[18px]">
-
-            {/* App Development */}
-            <ExpertiseCard index={0} onOpen={() => setOpenKey('app')}>
-              {(hovered) => (
-                <>
-                  <div className="flex justify-between items-start gap-3">
-                    <h3 className="font-archivo font-bold text-2xl leading-[1.05] m-0">App<br/>Development</h3>
-                    <TrainArrow hovered={hovered} />
-                  </div>
-                  <p className="m-0 text-sm text-muted leading-relaxed">
-                    Building high-performance native and cross-platform mobile apps for iOS and Android
-                  </p>
-                  <div className="mt-auto h-[140px] rounded-2xl bg-white/5 flex items-center justify-center overflow-hidden">
-                    <svg viewBox="0 0 180 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full p-4">
-                      <g style={{ animation: 'exp-float 3s ease-in-out infinite', transformBox: 'fill-box', transformOrigin: 'center' }}>
-                        <rect x="30" y="10" width="40" height="70" rx="6" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5"/>
-                        <rect x="36" y="20" width="28" height="40" rx="3" fill="rgba(108,43,217,0.4)"/>
-                        <circle cx="50" cy="72" r="3" fill="rgba(255,255,255,0.3)"/>
-                        <rect x="38" y="22" width="8" height="8" rx="2" fill="rgba(255,255,255,0.5)" style={{ animation: 'exp-pulse 2s ease-in-out infinite' }}/>
-                        <rect x="49" y="22" width="8" height="8" rx="2" fill="rgba(108,43,217,0.8)" style={{ animation: 'exp-pulse 2s ease-in-out 0.5s infinite' }}/>
-                        <rect x="38" y="33" width="8" height="8" rx="2" fill="rgba(108,43,217,0.8)" style={{ animation: 'exp-pulse 2s ease-in-out 1s infinite' }}/>
-                        <rect x="49" y="33" width="8" height="8" rx="2" fill="rgba(255,255,255,0.5)" style={{ animation: 'exp-pulse 2s ease-in-out 1.5s infinite' }}/>
-                      </g>
-                      <g style={{ animation: 'exp-float 3s ease-in-out 1s infinite', transformBox: 'fill-box', transformOrigin: 'center' }}>
-                        <rect x="82" y="22" width="36" height="62" rx="6" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5"/>
-                        <rect x="87" y="30" width="26" height="36" rx="3" fill="rgba(108,43,217,0.4)"/>
-                        <circle cx="100" cy="76" r="3" fill="rgba(255,255,255,0.3)"/>
-                        <rect x="89" y="32" width="22" height="4" rx="1" fill="rgba(255,255,255,0.4)"/>
-                        <rect x="89" y="39" width="16" height="3" rx="1" fill="rgba(255,255,255,0.2)"/>
-                        <rect x="89" y="45" width="19" height="3" rx="1" fill="rgba(255,255,255,0.2)"/>
-                      </g>
-                      <circle cx="140" cy="35" r="4" fill="rgba(108,43,217,0.6)" style={{ animation: 'exp-signal 1.4s ease-in-out infinite', transformBox: 'fill-box', transformOrigin: 'center' }}/>
-                      <circle cx="152" cy="28" r="4" fill="rgba(108,43,217,0.8)" style={{ animation: 'exp-signal 1.4s ease-in-out 0.35s infinite', transformBox: 'fill-box', transformOrigin: 'center' }}/>
-                      <circle cx="164" cy="20" r="4" fill="#6C2BD9" style={{ animation: 'exp-signal 1.4s ease-in-out 0.7s infinite', transformBox: 'fill-box', transformOrigin: 'center' }}/>
-                    </svg>
-                  </div>
-                </>
-              )}
-            </ExpertiseCard>
-
-            {/* Web Development – purple */}
-            <ExpertiseCard index={1} onOpen={() => setOpenKey('web')} purple>
-              {(hovered) => (
-                <>
-                  <div className="flex justify-between items-start gap-3">
-                    <h3 className="font-archivo font-bold text-2xl leading-[1.05] m-0">Web<br/>Development</h3>
-                    <TrainArrow hovered={hovered} dark />
-                  </div>
-                  <p className="m-0 text-sm text-[#e3d6fb] leading-relaxed">
-                    Crafting fast, scalable, and responsive websites and web applications end-to-end
-                  </p>
-                  <div className="mt-auto relative">
-                    <div className="h-[140px] rounded-2xl bg-white/20 flex items-center justify-center overflow-hidden">
-                      <svg viewBox="0 0 180 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full p-4">
-                        <rect x="10" y="10" width="160" height="100" rx="8" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5"/>
-                        <rect x="10" y="10" width="160" height="22" rx="8" fill="rgba(255,255,255,0.15)"/>
-                        <rect x="10" y="24" width="160" height="8" fill="rgba(255,255,255,0.15)"/>
-                        <circle cx="24" cy="21" r="4" fill="rgba(255,255,255,0.4)"/>
-                        <circle cx="36" cy="21" r="4" fill="rgba(255,255,255,0.4)"/>
-                        <circle cx="48" cy="21" r="4" fill="rgba(255,255,255,0.4)"/>
-                        <rect x="60" y="16" width="80" height="10" rx="5" fill="rgba(255,255,255,0.2)"/>
-                        <rect x="22" y="40" width="30" height="4" rx="2" fill="rgba(255,255,255,0.6)" style={{ animation: 'exp-pulse 2.5s ease-in-out infinite' }}/>
-                        <rect x="56" y="40" width="50" height="4" rx="2" fill="rgba(255,255,255,0.3)" style={{ animation: 'exp-pulse 2.5s ease-in-out 0.2s infinite' }}/>
-                        <rect x="22" y="50" width="20" height="4" rx="2" fill="rgba(255,255,255,0.4)" style={{ animation: 'exp-pulse 2.5s ease-in-out 0.4s infinite' }}/>
-                        <rect x="46" y="50" width="60" height="4" rx="2" fill="rgba(255,255,255,0.2)" style={{ animation: 'exp-pulse 2.5s ease-in-out 0.6s infinite' }}/>
-                        <rect x="22" y="60" width="40" height="4" rx="2" fill="rgba(255,255,255,0.5)" style={{ animation: 'exp-pulse 2.5s ease-in-out 0.8s infinite' }}/>
-                        <rect x="66" y="60" width="35" height="4" rx="2" fill="rgba(255,255,255,0.3)" style={{ animation: 'exp-pulse 2.5s ease-in-out 1s infinite' }}/>
-                        <rect x="22" y="70" width="25" height="4" rx="2" fill="rgba(255,255,255,0.3)" style={{ animation: 'exp-pulse 2.5s ease-in-out 1.2s infinite' }}/>
-                        <rect x="51" y="70" width="55" height="4" rx="2" fill="rgba(255,255,255,0.2)" style={{ animation: 'exp-pulse 2.5s ease-in-out 1.4s infinite' }}/>
-                        <rect x="22" y="80" width="45" height="4" rx="2" fill="rgba(255,255,255,0.4)" style={{ animation: 'exp-pulse 2.5s ease-in-out 1.6s infinite' }}/>
-                        <rect x="16" y="38" width="148" height="2" rx="1" fill="rgba(255,255,255,0.25)" style={{ animation: 'exp-scan 3s ease-in-out infinite' }}/>
-                        <rect x="110" y="78" width="2" height="10" rx="1" fill="rgba(255,255,255,0.9)" style={{ animation: 'exp-blink 1s step-end infinite' }}/>
-                      </svg>
-                    </div>
-                    <span className="absolute left-[14px] -bottom-[18px] w-[52px] h-[52px] rounded-full bg-lime
-                                     text-dark flex items-center justify-center"
-                          style={{ border: '4px solid #6C2BD9' }}>
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6"
-                           strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-                        <line x1="7" y1="17" x2="17" y2="7"/><polyline points="8 7 17 7 17 16"/>
-                      </svg>
-                    </span>
-                  </div>
-                </>
-              )}
-            </ExpertiseCard>
-
-            {/* UI/UX Design */}
-            <ExpertiseCard index={2} onOpen={() => setOpenKey('uiux')}>
-              {(hovered) => (
-                <>
-                  <div className="flex justify-between items-start gap-3">
-                    <h3 className="font-archivo font-bold text-2xl leading-[1.05] m-0">UI/UX<br/>Design</h3>
-                    <TrainArrow hovered={hovered} />
-                  </div>
-                  <p className="m-0 text-sm text-muted leading-relaxed">
-                    Designing intuitive interfaces and seamless experiences that delight users
-                  </p>
-                  <div className="mt-auto h-[140px] rounded-2xl bg-white/5 flex items-center justify-center overflow-hidden">
-                    <svg viewBox="0 0 180 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full p-4">
-                      <rect x="15" y="10" width="100" height="80" rx="6" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5"/>
-                      <rect x="22" y="18" width="86" height="14" rx="3" fill="rgba(108,43,217,0.5)" style={{ animation: 'exp-glow 2.5s ease-in-out infinite' }}/>
-                      <rect x="22" y="36" width="40" height="28" rx="3" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)" strokeWidth="1"/>
-                      <rect x="66" y="36" width="42" height="12" rx="2" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)" strokeWidth="1"/>
-                      <rect x="66" y="52" width="42" height="12" rx="2" fill="rgba(108,43,217,0.35)" style={{ animation: 'exp-pulse 2s ease-in-out 0.6s infinite' }}/>
-                      <rect x="22" y="68" width="86" height="8" rx="2" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.1)" strokeWidth="1"/>
-                      <circle cx="130" cy="25" r="10" fill="rgba(108,43,217,0.9)" style={{ animation: 'exp-signal 1.8s ease-in-out infinite', transformBox: 'fill-box', transformOrigin: 'center' }}/>
-                      <circle cx="148" cy="25" r="10" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" strokeWidth="1" style={{ animation: 'exp-signal 1.8s ease-in-out 0.45s infinite', transformBox: 'fill-box', transformOrigin: 'center' }}/>
-                      <circle cx="163" cy="25" r="10" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.15)" strokeWidth="1" style={{ animation: 'exp-signal 1.8s ease-in-out 0.9s infinite', transformBox: 'fill-box', transformOrigin: 'center' }}/>
-                      <g style={{ animation: 'exp-float 3.5s ease-in-out 0.5s infinite', transformBox: 'fill-box', transformOrigin: 'center' }}>
-                        <path d="M125 55 L145 40 L155 50 L135 65 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" strokeWidth="1.2"/>
-                        <circle cx="155" cy="50" r="3" fill="rgba(108,43,217,0.8)"/>
-                        <line x1="125" y1="55" x2="119" y2="70" stroke="rgba(255,255,255,0.3)" strokeWidth="1.2"/>
-                      </g>
-                      <circle cx="130" cy="80" r="1.5" fill="rgba(255,255,255,0.2)" style={{ animation: 'exp-pulse 2s ease-in-out infinite' }}/>
-                      <circle cx="140" cy="80" r="1.5" fill="rgba(255,255,255,0.2)" style={{ animation: 'exp-pulse 2s ease-in-out 0.25s infinite' }}/>
-                      <circle cx="150" cy="80" r="1.5" fill="rgba(255,255,255,0.2)" style={{ animation: 'exp-pulse 2s ease-in-out 0.5s infinite' }}/>
-                      <circle cx="160" cy="80" r="1.5" fill="rgba(255,255,255,0.2)" style={{ animation: 'exp-pulse 2s ease-in-out 0.75s infinite' }}/>
-                      <circle cx="130" cy="90" r="1.5" fill="rgba(255,255,255,0.2)" style={{ animation: 'exp-pulse 2s ease-in-out 0.5s infinite' }}/>
-                      <circle cx="140" cy="90" r="1.5" fill="rgba(255,255,255,0.2)" style={{ animation: 'exp-pulse 2s ease-in-out 0.75s infinite' }}/>
-                      <circle cx="150" cy="90" r="1.5" fill="rgba(255,255,255,0.2)" style={{ animation: 'exp-pulse 2s ease-in-out 1s infinite' }}/>
-                      <circle cx="160" cy="90" r="1.5" fill="rgba(255,255,255,0.2)" style={{ animation: 'exp-pulse 2s ease-in-out 1.25s infinite' }}/>
-                    </svg>
-                  </div>
-                </>
-              )}
-            </ExpertiseCard>
-
+          {/* 4-card grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
+            {CARDS.map((card, i) => (
+              <ExpertiseCard
+                key={card.num}
+                card={card}
+                index={i}
+                onOpen={card.expertiseKey ? () => setOpenKey(card.expertiseKey!) : undefined}
+              />
+            ))}
           </div>
         </div>
       </section>
 
       {openKey && (
-        <ExpertiseOverlay
-          expertiseKey={openKey}
-          onClose={() => setOpenKey(null)}
-        />
+        <ExpertiseOverlay expertiseKey={openKey} onClose={() => setOpenKey(null)} />
       )}
     </>
   )
 }
 
-/* ── ExpertiseCard wrapper — manages hover state + renders content via render prop ── */
 function ExpertiseCard({
-  children,
+  card,
   index,
   onOpen,
-  purple,
 }: {
-  children: (hovered: boolean) => React.ReactNode
+  card: CardData
   index: number
-  onOpen: () => void
-  purple?: boolean
+  onOpen?: () => void
 }) {
   const [hovered, setHovered] = useState(false)
 
-  return (
+  const inner = (
     <motion.div
-      {...cardProps(index)}
-      className="rounded-[22px] p-[26px] flex flex-col gap-[18px] cursor-pointer"
-      style={
-        purple
-          ? { background: '#6C2BD9' }
-          : { background: 'var(--elevated)', border: '1px solid var(--border-2)' }
-      }
-      onClick={onOpen}
+      className="group relative rounded-[22px] p-7 flex flex-col gap-5 overflow-hidden cursor-pointer h-full"
+      style={{ background: 'var(--elevated)' }}
+      initial={{ opacity: 0, y: 48, scale: 0.97 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: false, amount: 0.15 }}
+      transition={{ duration: 0.65, delay: index * 0.1, ease: EASE }}
+      whileHover={{ y: -6, transition: { duration: 0.3, ease: 'easeOut' } }}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
     >
-      {children(hovered)}
+      {/* accent top bar — animates width on hover */}
+      <div
+        className="absolute top-0 left-0 h-[3px] rounded-t-[22px] transition-all duration-500"
+        style={{ width: hovered ? '100%' : '0%', background: card.accent }}
+      />
+
+      {/* shimmer overlay */}
+      {hovered && (
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: `radial-gradient(ellipse at 30% 0%, ${card.accent}18 0%, transparent 70%)`,
+            borderRadius: '22px',
+          }}
+        />
+      )}
+
+      {/* top row: number + icon */}
+      <div className="flex items-start justify-between">
+        <span
+          className="font-archivo font-black leading-none select-none"
+          style={{ fontSize: '13px', color: 'var(--num-ghost)', letterSpacing: '1px' }}
+        >
+          <NumberTicker value={index + 1} padStart={2} delay={index * 60} once={false} />
+        </span>
+        <motion.div
+          animate={{ scale: hovered ? 1.1 : 1 }}
+          transition={{ duration: 0.3, ease: EASE }}
+        >
+          {card.icon}
+        </motion.div>
+      </div>
+
+      {/* text content */}
+      <div className="flex flex-col gap-3 flex-1">
+        <h3
+          className="font-archivo font-bold text-white m-0 leading-[1.15]"
+          style={{ fontSize: 'clamp(18px, 1.8vw, 22px)' }}
+        >
+          {card.title}
+        </h3>
+        <p className="text-sm text-muted m-0 leading-[1.65]">{card.desc}</p>
+      </div>
+
+      {/* tag pills */}
+      <div className="flex flex-wrap gap-[7px] mt-auto">
+        {card.tags.map(tag => (
+          <span
+            key={tag}
+            className="text-[11px] font-semibold px-3 py-[5px] rounded-full"
+            style={{
+              background: card.accent + '18',
+              color: card.accent === '#C5F23C' ? '#b5df30' : card.accent,
+            }}
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+
+      {/* arrow indicator */}
+      <div className="flex items-center justify-between mt-1">
+        <span className="text-xs font-semibold" style={{ color: 'var(--muted)' }}>
+          {onOpen ? 'Click to explore' : 'Learn more'}
+        </span>
+        <motion.div
+          className="w-8 h-8 rounded-full flex items-center justify-center"
+          style={{ background: hovered ? card.accent : 'var(--border)' }}
+          animate={{ background: hovered ? card.accent : 'var(--border)' }}
+          transition={{ duration: 0.3 }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke={hovered && card.accentDark ? '#0b0b0b' : '#fff'}
+               strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round" className="w-[13px] h-[13px]"
+               style={{ transform: 'rotate(-45deg)' }}>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="13 6 19 12 13 18"/>
+          </svg>
+        </motion.div>
+      </div>
     </motion.div>
   )
-}
 
-/* ── Animated arrow inside white circle (train exit on hover) ── */
-function TrainArrow({ hovered, dark }: { hovered: boolean; dark?: boolean }) {
-  const bg = dark ? 'rgba(0,0,0,0.18)' : 'white'
-  const stroke = dark ? 'white' : '#0A0A0B'
+  if (card.href) {
+    return (
+      <div className="relative h-full">
+        <CornerMarks hovered={hovered} />
+        <Link href={card.href} className="no-underline block h-full">
+          {inner}
+        </Link>
+      </div>
+    )
+  }
 
   return (
-    <motion.div
-      className="w-11 h-11 rounded-full flex items-center justify-center flex-none overflow-hidden"
-      style={{ background: bg, border: dark ? '1.5px solid rgba(255,255,255,0.3)' : 'none' }}
-      animate={{ scale: hovered ? 1.13 : 1 }}
-      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-    >
-      <motion.div
-        className="flex items-center justify-center"
-        animate={
-          hovered
-            ? { x: [0, 13, -13, 0], y: [0, -13, 13, 0], opacity: [1, 0, 0, 1] }
-            : { x: 0, y: 0, opacity: 1 }
-        }
-        transition={
-          hovered
-            ? { duration: 0.52, ease: [0.16, 1, 0.3, 1], times: [0, 0.44, 0.45, 1] }
-            : { duration: 0.3 }
-        }
-      >
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke={stroke}
-          strokeWidth="2.4"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="w-[17px] h-[17px]"
-          style={{ transform: 'rotate(-45deg)' }}
-        >
-          <line x1="5" y1="12" x2="19" y2="12"/>
-          <polyline points="13 6 19 12 13 18"/>
-        </svg>
-      </motion.div>
-    </motion.div>
+    <div onClick={onOpen} className="relative h-full">
+      <CornerMarks hovered={hovered} />
+      {inner}
+    </div>
   )
 }

@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { gsap } from 'gsap'
 import Footer from '@/components/Footer'
+import { CornerMarks } from '@/components/ui/corner-marks'
 
 interface Product {
   id: string
@@ -14,6 +15,9 @@ interface Product {
   accent: string
   link: string
   image?: string
+  websiteUrl?: string
+  appStoreUrl?: string
+  playStoreUrl?: string
 }
 
 const PRODUCTS: Product[] = [
@@ -27,6 +31,7 @@ const PRODUCTS: Product[] = [
     accent: '#FF6B35',
     link: '#',
     image: '/images/zipto.png',
+    websiteUrl: 'https://zipto.in',
   },
   {
     id: 'customer_app',
@@ -37,6 +42,8 @@ const PRODUCTS: Product[] = [
     accent: '#FF6B35',
     link: '#',
     image: '/images/customer_app.png',
+    appStoreUrl: '#',
+    playStoreUrl: '#',
   },
   {
     id: 'rider_app',
@@ -47,6 +54,8 @@ const PRODUCTS: Product[] = [
     accent: '#FF6B35',
     link: '#',
     image: '/images/rider_app.png',
+    appStoreUrl: '#',
+    playStoreUrl: '#',
   },
   {
     id: 'eazydrivez',
@@ -57,6 +66,7 @@ const PRODUCTS: Product[] = [
     accent: '#19b3c6',
     link: '#',
     image: '/images/eazydrivez.png',
+    websiteUrl: 'https://eazydrivez.com/',
   },
   {
     id: 'sjdecors',
@@ -67,6 +77,7 @@ const PRODUCTS: Product[] = [
     accent: '#C5F23C',
     link: '#',
     image: '/images/sjdecors.png',
+    websiteUrl: 'https://www.sjdecors.in/',
   },
   /* ── Other shipped products (commented out) ── */
   // {
@@ -145,8 +156,9 @@ export default function ProductsOverlay({ onClose }: Props) {
   return (
     <div
       ref={panelRef}
-      className="fixed inset-0 z-[200] overflow-y-auto"
-      style={{ background: 'var(--dark)', willChange: 'transform', scrollBehavior: 'smooth' }}
+      className="fixed left-0 right-0 bottom-0 z-[200] overflow-y-auto"
+      data-lenis-prevent
+      style={{ top: 'var(--banner-h, 0px)', background: 'var(--dark)', willChange: 'transform', scrollBehavior: 'smooth' }}
     >
       {/* ── Sticky top bar ── */}
       <div
@@ -218,7 +230,7 @@ export default function ProductsOverlay({ onClose }: Props) {
         {/* count badge */}
         <motion.div
           className="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-full relative z-[1]"
-          style={{ background: 'var(--glass)', border: '1px solid var(--border)' }}
+          style={{ background: 'var(--glass)' }}
           initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4, delay: 0.65, type: 'spring', bounce: 0.4 }}
         >
@@ -237,7 +249,7 @@ export default function ProductsOverlay({ onClose }: Props) {
 
       {/* ── Product grid ── */}
       <div className="max-w-[1180px] mx-auto px-4 sm:px-7 py-10 sm:py-14">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-7">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-10">
           {PRODUCTS.map((product, i) => (
             <ProductCard key={product.id} product={product} index={i} />
           ))}
@@ -280,9 +292,11 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
   const isLime = product.accent === '#C5F23C'
 
   return (
+    <div className="relative">
+      <CornerMarks hovered={hovered} />
     <motion.div
       className="relative rounded-[24px] overflow-hidden flex flex-col cursor-pointer"
-      style={{ background: 'var(--elevated)', border: '1px solid rgba(255,255,255,0.06)' }}
+      style={{ background: 'var(--elevated)' }}
       initial={{ opacity: 0, y: 52, scale: 0.96 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: false, amount: 0.12 }}
@@ -291,9 +305,8 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
       animate={{
-        borderColor: hovered ? product.accent + '55' : 'rgba(255,255,255,0.06)',
         boxShadow: hovered
-          ? `0 28px 64px rgba(0,0,0,0.55), 0 0 0 1px ${product.accent}33, 0 0 40px ${product.accent}18`
+          ? `0 28px 64px rgba(0,0,0,0.55), 0 0 40px ${product.accent}18`
           : '0 4px 24px rgba(0,0,0,0.3)',
       }}
     >
@@ -385,7 +398,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
         {/* category badge — top left */}
         <div
           className="absolute top-4 left-4 px-3 py-[5px] rounded-full text-[10px] font-bold tracking-[1.5px] uppercase"
-          style={{ background: product.accent + '22', color: product.accent, border: `1px solid ${product.accent}44`, backdropFilter: 'blur(6px)' }}
+          style={{ background: product.accent + '22', color: product.accent, backdropFilter: 'blur(6px)' }}
         >
           {product.category}
         </div>
@@ -437,7 +450,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
             <motion.span
               key={t}
               className="text-[10px] font-bold tracking-[1.2px] uppercase px-[10px] py-[5px] rounded-full"
-              style={{ fontFamily: 'var(--font-roboto-mono), monospace', border: '1px solid transparent' }}
+              style={{ fontFamily: 'var(--font-roboto-mono), monospace' }}
               animate={hovered ? {
                 borderColor: product.accent + '77',
                 color: product.accent,
@@ -464,26 +477,98 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
         />
 
         {/* CTA row */}
-        <div className="flex items-center justify-between">
-          <motion.a
-            href={product.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="inline-flex items-center gap-2 rounded-full font-bold text-sm no-underline px-5 py-[11px]"
-            animate={{
-              background: hovered ? product.accent : 'rgba(255,255,255,0.06)',
-              color: hovered ? (isLime ? '#0A0A0B' : '#ffffff') : 'rgba(255,255,255,0.5)',
-              borderColor: hovered ? product.accent : 'rgba(255,255,255,0.1)',
-            }}
-            style={{ border: '1px solid rgba(255,255,255,0.1)' }}
-            transition={{ duration: 0.3 }}
-          >
-            View Product
-          </motion.a>
+        <div className="flex items-center gap-2 flex-wrap">
+          {/* Website link */}
+          {product.websiteUrl && (
+            <motion.a
+              href={product.websiteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-[7px] rounded-full font-bold text-xs no-underline px-4 py-[9px] border"
+              animate={{
+                background: hovered ? product.accent : 'rgba(255,255,255,0.05)',
+                color: hovered ? (isLime ? '#0A0A0B' : '#ffffff') : 'rgba(255,255,255,0.45)',
+                borderColor: hovered ? product.accent : 'rgba(255,255,255,0.09)',
+              }}
+              transition={{ duration: 0.3 }}
+            >
+              {/* globe icon */}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-[12px] h-[12px] flex-none">
+                <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+              Visit Website
+            </motion.a>
+          )}
 
-          {/* diagonal arrow */}
+          {/* App Store link */}
+          {product.appStoreUrl && (
+            <motion.a
+              href={product.appStoreUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-[7px] rounded-full font-bold text-xs no-underline px-4 py-[9px] border"
+              animate={{
+                background: hovered ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.05)',
+                color: hovered ? '#ffffff' : 'rgba(255,255,255,0.45)',
+                borderColor: hovered ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.09)',
+              }}
+              transition={{ duration: 0.3 }}
+            >
+              {/* Apple icon */}
+              <svg viewBox="0 0 24 24" fill="currentColor" className="w-[12px] h-[12px] flex-none">
+                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+              </svg>
+              App Store
+            </motion.a>
+          )}
+
+          {/* Play Store link */}
+          {product.playStoreUrl && (
+            <motion.a
+              href={product.playStoreUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-[7px] rounded-full font-bold text-xs no-underline px-4 py-[9px] border"
+              animate={{
+                background: hovered ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.05)',
+                color: hovered ? '#ffffff' : 'rgba(255,255,255,0.45)',
+                borderColor: hovered ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.09)',
+              }}
+              transition={{ duration: 0.3 }}
+            >
+              {/* Android/Play icon */}
+              <svg viewBox="0 0 24 24" fill="currentColor" className="w-[12px] h-[12px] flex-none">
+                <path d="M3.18 23.76a1.05 1.05 0 0 0 1.06-.08l11.62-6.54-2.5-2.5zm14.84-10.71L15.35 10.4 12.68 13l2.67 2.67 3.68-2.07a1.1 1.1 0 0 0 .56-.96 1.07 1.07 0 0 0-.57-.59zM3.18.24A1.07 1.07 0 0 0 2.5 1.22v21.56a1.07 1.07 0 0 0 .68.98l.08.04 12.09-12.06v-.28zm8.83 11.44L3.26.69l-.08.04A1.07 1.07 0 0 0 2.5 1.7"/>
+              </svg>
+              Play Store
+            </motion.a>
+          )}
+
+          {/* fallback if no urls set */}
+          {!product.websiteUrl && !product.appStoreUrl && !product.playStoreUrl && (
+            <motion.a
+              href={product.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-2 rounded-full font-bold text-xs no-underline px-4 py-[9px] border"
+              animate={{
+                background: hovered ? product.accent : 'rgba(255,255,255,0.05)',
+                color: hovered ? (isLime ? '#0A0A0B' : '#ffffff') : 'rgba(255,255,255,0.45)',
+                borderColor: hovered ? product.accent : 'rgba(255,255,255,0.09)',
+              }}
+              transition={{ duration: 0.3 }}
+            >
+              View Product
+            </motion.a>
+          )}
+
+          {/* diagonal arrow — pushed to end */}
           <motion.div
+            className="ml-auto"
             animate={{ x: hovered ? 3 : 0, y: hovered ? -3 : 0, opacity: hovered ? 1 : 0.22 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
@@ -497,6 +582,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
         </div>
       </div>
     </motion.div>
+    </div>
   )
 }
 
@@ -542,7 +628,6 @@ function CtaBanner({ onClose }: { onClose: () => void }) {
                  px-8 sm:px-16 py-12 sm:py-20"
       style={{
         background: 'linear-gradient(120deg, #0e0e1c 0%, #131326 50%, #1a1035 100%)',
-        border: '1px solid rgba(255,255,255,0.08)',
       }}
     >
       {/* ── Tech animation layer ── */}
@@ -727,7 +812,7 @@ function CtaBanner({ onClose }: { onClose: () => void }) {
           whileTap={{ scale: 0.96 }}
           className="relative overflow-hidden inline-flex items-center gap-2 px-6 py-[13px]
                      rounded-full font-semibold text-sm cursor-pointer border-0"
-          style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.14)' }}
+          style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.7)' }}
           animate={{
             borderColor: hoverServices ? 'rgba(197,242,60,0.5)' : 'rgba(255,255,255,0.14)',
             color: hoverServices ? '#C5F23C' : 'rgba(255,255,255,0.7)',

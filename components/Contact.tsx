@@ -1,164 +1,270 @@
 'use client'
-import { FormEvent, useState } from 'react'
+import { FormEvent, useState, useId } from 'react'
 import { motion } from 'framer-motion'
-import GlareHover from './GlareHover'
+import { CornerMarks } from '@/components/ui/corner-marks'
+import { DottedMap } from '@/registry/magicui/dotted-map'
+import type { Marker } from '@/registry/magicui/dotted-map'
 
-function FloatingField({ label, type }: { label: string; type: string }) {
-  const [focused, setFocused] = useState(false)
-  const [value,   setValue]   = useState('')
-  const active = focused || !!value
+type MyMarker = Marker & { label: string; countryCode: string }
+
+const MAP_MARKERS: MyMarker[] = [
+  { lat: 20.3, lng: 85.8, size: 3, label: 'Bhubaneswar', countryCode: 'in' },
+]
+
+function WorldMap() {
+  const id = useId()
   return (
-    <div className="relative rounded-xl" style={{
-      background: 'var(--card)',
-      border: `1px solid ${focused ? 'rgba(108,43,217,0.75)' : 'rgba(255,255,255,0.12)'}`,
-      transition: 'border-color 0.2s',
-    }}>
-      <input type={type} required value={value}
-        onChange={e => setValue(e.target.value)}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        className="w-full bg-transparent px-[15px] pt-[22px] pb-[8px] text-sm text-[#ededed] outline-none"
-        style={{ fontFamily: 'inherit' }}
+    <div className="relative w-full mt-8 select-none overflow-hidden rounded-xl"
+         style={{ maxWidth: 520 }}>
+      {/* fade edges */}
+      <div className="absolute inset-0 pointer-events-none z-10"
+           style={{ background: 'radial-gradient(ellipse at center, transparent 55%, var(--dark) 100%)' }} />
+      <DottedMap<MyMarker>
+        markers={MAP_MARKERS}
+        mapColor="rgba(255,255,255,0.18)"
+        dotSize={0.35}
+        dotSpacing={35}
+        renderMarkerOverlay={({ marker, x, y, r }) => {
+          // r is already scaled to the tiny 69×35 viewBox (~0.76 units for size 2)
+          const clipId = `${id}-clip`.replace(/:/g, '-')
+          const imgR  = r * 1.4          // flag circle
+          const stem  = r * 3            // pin line length
+          const fontSize  = r * 0.85
+          const pillH = r * 1.5
+          const pillW = marker.label.length * (fontSize * 0.62) + r * 1.2
+          const pillX = x + imgR + r * 0.5
+          const pillY = y - pillH / 2
+          return (
+            <g style={{ pointerEvents: 'none' }}>
+              {/* pulse rings */}
+              <circle cx={x} cy={y} r={r * 3.5} fill="rgba(108,43,217,0.10)" />
+              <circle cx={x} cy={y} r={r * 2.2} fill="rgba(108,43,217,0.18)" />
+
+              {/* flag */}
+              <clipPath id={clipId}>
+                <circle cx={x} cy={y} r={imgR} />
+              </clipPath>
+              <image
+                href={`https://flagcdn.com/w80/${marker.countryCode}.webp`}
+                x={x - imgR} y={y - imgR}
+                width={imgR * 2} height={imgR * 2}
+                preserveAspectRatio="xMidYMid slice"
+                clipPath={`url(#${clipId})`}
+              />
+
+              {/* pin stem */}
+              <line x1={x} y1={y - imgR} x2={x} y2={y - imgR - stem}
+                    stroke="#6C2BD9" strokeWidth={0.3} opacity={0.7} />
+
+              {/* label pill */}
+              <rect x={pillX} y={pillY} width={pillW} height={pillH}
+                    rx={pillH / 2} fill="rgba(0,0,0,0.55)" />
+              <text x={pillX + r * 0.6} y={y + fontSize * 0.35}
+                    fontSize={fontSize} fill="white" fontWeight="600">
+                {marker.label}
+              </text>
+            </g>
+          )
+        }}
       />
-      <motion.label className="absolute left-[15px] pointer-events-none font-medium text-sm"
-        style={{ transformOrigin: 'left top' }}
-        animate={{ top: active ? 7 : 15, scale: active ? 0.78 : 1, color: active ? (focused ? '#b99dff' : '#7a7a7a') : '#9a9a9a' }}
-        transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}>
-        {label}
-      </motion.label>
     </div>
   )
 }
 
-function FloatingTextarea({ label }: { label: string }) {
-  const [focused, setFocused] = useState(false)
-  const [value,   setValue]   = useState('')
-  const active = focused || !!value
+/* ── dot-grid background for the form card ── */
+function DotGrid() {
   return (
-    <div className="relative rounded-xl" style={{
-      background: 'var(--card)',
-      border: `1px solid ${focused ? 'rgba(108,43,217,0.75)' : 'rgba(255,255,255,0.12)'}`,
-      transition: 'border-color 0.2s',
-    }}>
-      <textarea required rows={4} value={value}
-        onChange={e => setValue(e.target.value)}
+    <svg className="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="contact-dots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+          <circle cx="1" cy="1" r="1" fill="rgba(255,255,255,0.07)" />
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#contact-dots)" />
+    </svg>
+  )
+}
+
+/* ── simple labelled input ── */
+function Field({
+  label, type = 'text', placeholder, value, onChange,
+}: {
+  label: string; type?: string; placeholder: string
+  value: string; onChange: (v: string) => void
+}) {
+  const [focused, setFocused] = useState(false)
+  return (
+    <div className="flex flex-col gap-[6px]">
+      <label className="text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.75)' }}>{label}</label>
+      <input
+        type={type}
+        required
+        placeholder={placeholder}
+        value={value}
+        onChange={e => onChange(e.target.value)}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
-        className="w-full bg-transparent px-[15px] pt-[28px] pb-[10px] text-sm text-[#ededed] outline-none resize-y"
-        style={{ fontFamily: 'inherit' }}
+        className="w-full text-sm px-4 py-[11px] rounded-[10px] outline-none bg-transparent"
+        style={{
+          background: 'rgba(255,255,255,0.05)',
+          border: `1px solid ${focused ? 'rgba(108,43,217,0.7)' : 'rgba(255,255,255,0.09)'}`,
+          color: 'rgba(255,255,255,0.85)',
+          fontFamily: 'inherit',
+          transition: 'border-color 0.2s',
+        }}
       />
-      <motion.label className="absolute left-[15px] pointer-events-none font-medium text-sm"
-        style={{ transformOrigin: 'left top' }}
-        animate={{ top: active ? 8 : 14, scale: active ? 0.78 : 1, color: active ? (focused ? '#b99dff' : '#7a7a7a') : '#9a9a9a' }}
-        transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}>
-        {label}
-      </motion.label>
     </div>
   )
 }
 
+function TextareaField({
+  label, placeholder, value, onChange,
+}: {
+  label: string; placeholder: string; value: string; onChange: (v: string) => void
+}) {
+  const [focused, setFocused] = useState(false)
+  return (
+    <div className="flex flex-col gap-[6px]">
+      <label className="text-sm font-semibold" style={{ color: 'rgba(255,255,255,0.75)' }}>{label}</label>
+      <textarea
+        required
+        rows={4}
+        placeholder={placeholder}
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        className="w-full text-sm px-4 py-[11px] rounded-[10px] outline-none resize-y bg-transparent"
+        style={{
+          background: 'rgba(255,255,255,0.05)',
+          border: `1px solid ${focused ? 'rgba(108,43,217,0.7)' : 'rgba(255,255,255,0.09)'}`,
+          color: 'rgba(255,255,255,0.85)',
+          fontFamily: 'inherit',
+          transition: 'border-color 0.2s',
+        }}
+      />
+    </div>
+  )
+}
+
+/* ── main component ── */
 export default function Contact() {
   const [sent, setSent] = useState(false)
+  const [formHovered, setFormHovered] = useState(false)
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [company, setCompany] = useState('')
+  const [message, setMessage] = useState('')
+
   const handleSubmit = (e: FormEvent) => { e.preventDefault(); setSent(true) }
 
-  const contactItems = [
-    { icon: 'email',    label: 'Email',  value: 'sandeepnayak1724@gmail.com' },
-    { icon: 'phone',    label: 'Phone',  value: '+91 8456834944' },
-    { icon: 'location', label: 'Studio', value: 'Bhubaneswar, Odisha, India' },
-  ]
-
   return (
-    <section id="contact" className="max-w-[1180px] mx-auto px-5 sm:px-7 py-12 sm:py-16" style={{ scrollMarginTop: '80px' }}>
-      <div className="grid gap-6 sm:gap-10 md:gap-14 grid-cols-1 md:[grid-template-columns:0.9fr_1.1fr]">
+    <section id="contact" className="max-w-[1180px] mx-auto px-5 sm:px-7 py-14 sm:py-20" style={{ scrollMarginTop: '80px' }}>
+      <div className="grid gap-10 md:gap-16 grid-cols-1 md:[grid-template-columns:0.9fr_1.1fr]">
 
+        {/* ── Left ── */}
         <motion.div
-          initial={{ opacity: 0, x: -60 }}
+          initial={{ opacity: 0, x: -48 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: false, amount: 0.2 }}
           transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
         >
-          <p className="text-purple-light font-bold text-xs tracking-[2.5px] mb-[18px]">GET IN TOUCH</p>
-          <h2 className="font-archivo font-extrabold leading-[1.02] tracking-tight m-0 mb-[18px]"
-              style={{ fontSize: 'clamp(30px,4vw,52px)' }}>
-            Let&apos;s build something{' '}
-            <span className="bg-lime text-dark px-[0.1em] rounded-[10px] inline-block"
-                  style={{ transform: 'rotate(-2deg)' }}>memorable</span>
+          {/* email icon box */}
+          <div
+            className="w-[60px] h-[60px] rounded-[16px] flex items-center justify-center mb-7"
+            style={{ background: 'var(--elevated)', boxShadow: '0 0 0 4px rgba(108,43,217,0.12), 0 8px 24px rgba(0,0,0,0.3)' }}
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="#6C2BD9" strokeWidth="2"
+                 strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <path d="m22 7-10 5L2 7"/>
+            </svg>
+          </div>
+
+          <h2 className="font-archivo font-black leading-[1.05] tracking-tight m-0 mb-4"
+              style={{ fontSize: 'clamp(32px, 4.5vw, 56px)' }}>
+            Contact us
           </h2>
-          <p className="text-sm text-muted leading-[1.6] max-w-[380px] mb-8">
+
+          <p className="text-sm leading-[1.7] mb-8 max-w-[420px]" style={{ color: 'var(--muted)' }}>
             Tell us about your brand and where you&apos;d like to take it. We usually reply within one business day.
           </p>
-          <div className="flex flex-col gap-5">
-            {contactItems.map((c, i) => (
-              <motion.div key={c.label} className="flex items-center gap-[14px]"
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: false, amount: 0.5 }}
-                transition={{ duration: 0.5, delay: 0.15 + i * 0.1, ease: 'easeOut' }}>
-                <span className="w-11 h-11 flex-none rounded-full flex items-center justify-center"
-                      style={{ background: 'rgba(108,43,217,0.18)', color: '#b99dff' }}>
-                  <ContactIcon type={c.icon} />
-                </span>
-                <div>
-                  <p className="text-xs text-muted m-0">{c.label}</p>
-                  <p className="text-[15px] font-semibold mt-1 m-0" style={{ color: '#ededed' }}>{c.value}</p>
-                </div>
-              </motion.div>
-            ))}
+
+          {/* contact info row */}
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm mb-2" style={{ color: 'var(--muted)' }}>
+            <span>sandeepnayak1724@gmail.com</span>
+            <span className="opacity-40">•</span>
+            <span>+91 8456834944</span>
+            <span className="opacity-40">•</span>
+            <span>Bhubaneswar, India</span>
           </div>
+
+          <WorldMap />
         </motion.div>
 
+        {/* ── Right — form card ── */}
         <motion.div
-          className="rounded-[28px] p-[clamp(24px,3vw,40px)]"
-          style={{ background: 'var(--card)', border: '1px solid var(--border)' }}
-          initial={{ opacity: 0, x: 60 }}
+          initial={{ opacity: 0, x: 48 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: false, amount: 0.15 }}
           transition={{ duration: 0.75, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="relative self-start"
+          onMouseEnter={() => setFormHovered(true)}
+          onMouseLeave={() => setFormHovered(false)}
         >
-          {sent ? (
-            <motion.div className="min-h-[300px] flex flex-col items-center justify-center text-center gap-4"
-              initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}>
-              <span className="w-16 h-16 rounded-full bg-lime text-dark flex items-center justify-center">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6"
-                     strokeLinecap="round" strokeLinejoin="round" className="w-7 h-7">
-                  <polyline points="20 6 9 17 4 12"/>
-                </svg>
-              </span>
-              <h3 className="font-archivo font-bold text-2xl m-0" style={{ color: '#ededed' }}>Message sent!</h3>
-              <p className="m-0 text-sm text-muted max-w-[280px]">
-                Thanks for reaching out — we&apos;ll get back to you shortly.
-              </p>
-              <button onClick={() => setSent(false)}
-                      className="mt-2 text-sm font-semibold text-purple-light cursor-pointer bg-transparent border-0">
-                Send another message
-              </button>
-            </motion.div>
-          ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <FloatingField label="Name"  type="text"  />
-                <FloatingField label="Email" type="email" />
-              </div>
-              <FloatingField    label="Company"         type="text" />
-              <FloatingTextarea label="Project details" />
-              <motion.div className="mt-1" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} transition={{ duration: 0.2 }}>
-                <GlareHover width="100%" height="auto" background="#C5F23C" borderRadius="9999px"
-                  borderColor="transparent" glareColor="#ffffff" glareOpacity={0.45}
-                  glareAngle={-30} glareSize={300} transitionDuration={700}>
-                  <button type="submit"
-                    className="inline-flex items-center justify-center gap-2 text-dark px-6 py-[15px]
-                               font-semibold text-sm cursor-pointer bg-transparent border-0 w-full">
-                    Send message
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"
-                         strokeLinecap="round" strokeLinejoin="round" className="w-[15px] h-[15px]">
-                      <line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/>
-                    </svg>
-                  </button>
-                </GlareHover>
+          <CornerMarks hovered={formHovered} />
+          <div
+            className="rounded-[20px] p-7 sm:p-9 relative overflow-hidden"
+            style={{ background: 'var(--card)' }}
+          >
+            <DotGrid />
+
+            {sent ? (
+              <motion.div
+                className="relative z-10 min-h-[360px] flex flex-col items-center justify-center text-center gap-4"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <span className="w-16 h-16 rounded-full bg-lime text-dark flex items-center justify-center">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6"
+                       strokeLinecap="round" strokeLinejoin="round" className="w-7 h-7">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                </span>
+                <h3 className="font-archivo font-bold text-2xl m-0" style={{ color: 'var(--text-sub)' }}>Message sent!</h3>
+                <p className="m-0 text-sm max-w-[280px]" style={{ color: 'var(--muted)' }}>
+                  Thanks for reaching out — we&apos;ll get back to you shortly.
+                </p>
+                <button
+                  onClick={() => setSent(false)}
+                  className="mt-2 text-sm font-semibold cursor-pointer bg-transparent border-0"
+                  style={{ color: '#b99dff' }}
+                >
+                  Send another message
+                </button>
               </motion.div>
-            </form>
-          )}
+            ) : (
+              <form onSubmit={handleSubmit} className="relative z-10 flex flex-col gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <Field label="Full name"     placeholder="Sandeep Nayak"       value={name}    onChange={setName} />
+                  <Field label="Email address" placeholder="hello@example.com"   type="email" value={email}   onChange={setEmail} />
+                </div>
+                <Field label="Company" placeholder="Your company name" value={company} onChange={setCompany} />
+                <TextareaField label="Message" placeholder="Type your message here…" value={message} onChange={setMessage} />
+
+                <button
+                  type="submit"
+                  className="mt-1 self-start px-7 py-[12px] rounded-[10px] text-sm font-semibold cursor-pointer border-0 transition-colors"
+                  style={{ background: 'rgba(255,255,255,0.1)', color: '#fff' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#C5F23C'; (e.currentTarget as HTMLButtonElement).style.color = '#0b0b0b'; (e.currentTarget as HTMLButtonElement).style.borderColor = 'transparent' }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.1)'; (e.currentTarget as HTMLButtonElement).style.color = '#fff'; (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.14)' }}
+                >
+                  Submit
+                </button>
+              </form>
+            )}
+          </div>
         </motion.div>
       </div>
     </section>

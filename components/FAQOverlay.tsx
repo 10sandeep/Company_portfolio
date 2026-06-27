@@ -133,8 +133,9 @@ export default function FAQOverlay({ onClose }: Props) {
   return (
     <div
       ref={panelRef}
-      className="fixed inset-0 z-[200] overflow-y-auto"
-      style={{ background: 'var(--dark)', willChange: 'transform', scrollBehavior: 'smooth' }}
+      className="fixed left-0 right-0 bottom-0 z-[200] overflow-y-auto"
+      data-lenis-prevent
+      style={{ top: 'var(--banner-h, 0px)', background: 'var(--dark)', willChange: 'transform', scrollBehavior: 'smooth' }}
     >
       {/* ── Sticky top bar ── */}
       <div
@@ -211,7 +212,7 @@ export default function FAQOverlay({ onClose }: Props) {
         >
           <div
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
-            style={{ background: 'var(--glass)', border: '1px solid var(--border)' }}
+            style={{ background: 'var(--glass)' }}
           >
             <span className="w-2 h-2 rounded-full bg-lime" />
             <span className="text-xs font-bold tracking-[1.5px] text-white">{total} Questions</span>
@@ -248,7 +249,7 @@ export default function FAQOverlay({ onClose }: Props) {
             <div className="flex items-center gap-3 mb-6">
               <span
                 className="text-[10px] font-bold tracking-[2.5px] uppercase px-3 py-[5px] rounded-full"
-                style={{ background: section.accent + '1a', color: section.accent, border: `1px solid ${section.accent}44` }}
+                style={{ background: section.accent + '1a', color: section.accent }}
               >
                 {section.label}
               </span>
@@ -280,7 +281,7 @@ export default function FAQOverlay({ onClose }: Props) {
       >
         <div
           className="rounded-[28px] px-6 sm:px-10 py-8 sm:py-12 flex items-center justify-between gap-6 flex-wrap"
-          style={{ background: 'var(--elevated)', border: '1px solid var(--border)' }}
+          style={{ background: 'var(--elevated)' }}
         >
           <div>
             <h3 className="font-archivo font-bold text-white m-0" style={{ fontSize: 'clamp(20px, 2.5vw, 30px)' }}>
@@ -340,8 +341,7 @@ function AccordionItem({ item, accent, delay }: { item: FAQ; accent: string; del
       className="rounded-[16px] overflow-hidden cursor-pointer"
       style={{
         background: open ? 'var(--elevated)' : 'var(--panel)',
-        border: `1px solid ${open ? 'var(--border)' : 'var(--border-2)'}`,
-        transition: 'background 0.25s, border-color 0.25s',
+        transition: 'background 0.25s',
       }}
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -368,7 +368,7 @@ function AccordionItem({ item, accent, delay }: { item: FAQ; accent: string; del
         {/* chevron */}
         <motion.div
           className="w-8 h-8 rounded-full flex items-center justify-center flex-none"
-          style={{ background: open ? accent + '22' : 'rgba(255,255,255,0.05)', border: `1px solid ${open ? accent + '44' : 'rgba(255,255,255,0.08)'}`, transition: 'background 0.25s, border-color 0.25s' }}
+          style={{ background: open ? accent + '22' : 'rgba(255,255,255,0.05)', transition: 'background 0.25s' }}
           animate={{ rotate: open ? 45 : 0 }}
           transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         >
