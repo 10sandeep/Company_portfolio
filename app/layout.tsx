@@ -326,7 +326,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={`${archivo.variable} ${inter.variable} ${robotoMono.variable} font-inter`} style={{ overflowX: 'hidden', maxWidth: '100vw' }}>
+      <body className={`${archivo.variable} ${inter.variable} ${robotoMono.variable} font-inter`}>
         <StickyBanner className="bg-gradient-to-r from-[#7c3aed] to-[#5b21b6]">
           <p className="text-white text-xs sm:text-sm font-medium drop-shadow-md">
             🚀 We&apos;re now accepting new projects for Q3 2025.{' '}

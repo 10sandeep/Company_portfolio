@@ -95,8 +95,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
-  overflow-x: hidden;
-  max-width: 100%;
+  /* Do NOT set overflow-x: hidden on html — iOS Safari blocks ALL scroll */
 }
 
 body {
@@ -105,8 +104,7 @@ body {
   color: var(--text-sub);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-  max-width: 100%;
+  overflow-x: clip; /* clip doesn't create a scroll container, safe on iOS */
   transition: background 0.35s ease, color 0.35s ease;
   animation: page-enter 0.55s ease both;
 }
