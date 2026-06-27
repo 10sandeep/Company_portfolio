@@ -234,7 +234,7 @@ body {
   }
 }
 
-/* ── Touch: prevent x-overflow from full-bleed sections ── */
+/* ── Touch: prevent horizontal overscroll on mobile ── */
 @media (max-width: 640px) {
-  html, body { overscroll-behavior-x: none; }
+  body { overscroll-behavior-x: none; }
 }
