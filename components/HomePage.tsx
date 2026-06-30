@@ -117,7 +117,7 @@ export default function HomePage() {
         <WhatWeDo />
         <RecentWork onOpen={openProject} onOpenProducts={openProducts} />
       </TracingBeam>
-      <LogoWall />
+      {/* <LogoWall /> */}
       <Contact />
       <CTASection />
       {/* <GlobalReach /> */}

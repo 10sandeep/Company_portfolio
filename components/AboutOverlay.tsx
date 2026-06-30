@@ -10,7 +10,7 @@ import { NumberTicker } from '@/components/ui/number-ticker'
 const team = [
   {
     name: 'Sushree Jyotirmayee Sahoo',
-    role: 'Team Lead',
+    role: 'CO-Founder and CEO',
     specialty: 'Leadership, Strategy & Client Success',
     initials: 'SJS',
     photo: '/images/sushree.jpeg',
@@ -21,7 +21,7 @@ const team = [
   },
   {
     name: 'Sandeep Nayak',
-    role: 'Frontend Developer',
+    role: 'Founder and Director',
     specialty: 'UI Engineering & Web Performance',
     initials: 'SN',
     photo: '/images/sandeep.jpeg',
@@ -32,7 +32,7 @@ const team = [
   },
   {
     name: 'Subham Mishra',
-    role: 'Full Stack Developer',
+    role: 'Director and CTO',
     specialty: 'End-to-End Engineering & AI',
     initials: 'SM',
     photo: '/images/subham.png',
@@ -40,6 +40,17 @@ const team = [
     bio: 'Subham owns the full stack — from pixel-perfect frontends to scalable APIs, cloud infrastructure, and AI integrations. He builds complete products that are fast, reliable, and ready to grow.',
     skills: ['React', 'Node.js', 'Python', 'PostgreSQL', 'AWS', 'AI/ML'],
     linkedin: 'https://www.linkedin.com/in/subham-mishra-7b4b2b1a9/',
+  },
+  {
+    name: 'Ashwini Kumar Sahoo',
+    role: 'Director',
+    specialty: 'Vision, Growth & Product Direction',
+    initials: 'AKS',
+    photo: '/images/ashwini.png',
+    color: '#f59e0b',
+    bio: 'Ashwini drives the strategic direction at Boomstack, bridging vision with execution. He champions product innovation and growth, ensuring every initiative delivers meaningful impact at scale.',
+    skills: ['Leadership', 'Strategy', 'Business Development', 'Product Vision'],
+    linkedin: 'https://www.linkedin.com/in/ashwini-kumar-aa87a3225',
   },
 ]
 
@@ -405,7 +416,7 @@ export default function AboutOverlay({ onClose }: { onClose: () => void }) {
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-7 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-7 sm:gap-8">
             {team.map((member, i) => <TeamCard key={member.name} member={member} index={i} />)}
           </div>
         </div>
@@ -526,7 +537,7 @@ function TeamCard({ member, index }: { member: TeamMember; index: number }) {
       />
 
       {/* ── Photo ── */}
-      <div className="relative overflow-hidden" style={{ height: 380 }}>
+      <div className="relative overflow-hidden" style={{ height: 440 }}>
         {member.photo ? (
           <motion.div
             className="absolute inset-0"
@@ -537,8 +548,9 @@ function TeamCard({ member, index }: { member: TeamMember; index: number }) {
               src={member.photo}
               alt={member.name}
               fill
-              className="object-cover object-top"
-              sizes="(max-width: 768px) 100vw, 33vw"
+              className="object-cover"
+              style={{ objectPosition: 'center 15%' }}
+              sizes="(max-width: 768px) 100vw, 50vw"
               priority
             />
           </motion.div>
